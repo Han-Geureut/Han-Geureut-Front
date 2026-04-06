@@ -1,0 +1,31 @@
+{
+  "files": {
+    "main.css": "/static/css/main.dde80324.css",
+    "main.js": "/static/js/main.3755d200.js",
+    "static/js/453.640b8d0e.chunk.js": "/static/js/453.640b8d0e.chunk.js",
+    "static/media/Writereviewbanner.png": "/static/media/Writereviewbanner.2866327c63b9a954f96f.png",
+    "static/media/HomeBanner.png": "/static/media/HomeBanner.052865c9b2d84aa8c02c.png",
+    "static/media/albumimage.png": "/static/media/albumimage.b631a05f962a442e4929.png",
+    "static/media/globe.png": "/static/media/globe.27cf64af07981757c62e.png",
+    "static/media/CreateBanner.png": "/static/media/CreateBanner.91471cc4a0246ca00540.png",
+    "static/media/searchbanner.png": "/static/media/searchbanner.d0e5896980a476a0e5fb.png",
+    "static/media/danang.png": "/static/media/danang.e36d8dbf2734a5d57b07.png",
+    "static/media/friendsimage.png": "/static/media/friendsimage.3b99c1613568f41f56ef.png",
+    "static/media/Travelogimage.png": "/static/media/Travelogimage.6d8e3fdcc7e7627d04bf.png",
+    "static/media/createphoto3.png": "/static/media/createphoto3.8335c3d9d4850e8a3f1b.png",
+    "static/media/createphoto1.png": "/static/media/createphoto1.5e0c66dc98c43d2e5808.png",
+    "static/media/createphoto4.png": "/static/media/createphoto4.be77fcd82b6cf40f8949.png",
+    "static/media/createphoto2.png": "/static/media/createphoto2.13cbe8675708f06c0b1f.png",
+    "static/media/Rectangle.png": "/static/media/Rectangle.d64dc6ea921b308acb7c.png",
+    "static/media/memorizelogo.png": "/static/media/memorizelogo.c093bc9f9a03f66ceeab.png",
+    "static/media/logo.svg": "/static/media/logo.6ce24c58023cc2f8fd88fe9d219db6c6.svg",
+    "index.html": "/index.html",
+    "main.dde80324.css.map": "/static/css/main.dde80324.css.map",
+    "main.3755d200.js.map": "/static/js/main.3755d200.js.map",
+    "453.640b8d0e.chunk.js.map": "/static/js/453.640b8d0e.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.dde80324.css",
+    "static/js/main.3755d200.js"
+  ]
+}
