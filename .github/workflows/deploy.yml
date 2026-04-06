@@ -24,6 +24,7 @@ jobs:
       run: npm run build
       env:
         REACT_APP_GOOGLE_MAPS_API_KEY: ${{ secrets.REACT_APP_GOOGLE_MAPS_API_KEY }}
+        CI: false
 
     - name: Deploy to Netlify
       uses: nwtgck/actions-netlify@v2
