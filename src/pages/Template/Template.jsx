@@ -338,7 +338,7 @@ const Template = () => {
 
         <BodyContainer>
           <MapContainer>
-            <Wrapper apiKey={'AIzaSyAdtcoLhT9SyVaQjYXyfApBxzPrBYVz9JE'}>
+            <Wrapper apiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY}>
               <Homes album={album} />
             </Wrapper>
           </MapContainer>

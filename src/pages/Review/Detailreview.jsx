@@ -292,7 +292,7 @@ const Detailreview = () => {
           <div style={{ marginBottom: '10vw' }} />
 
           <MapContainer>
-            <Wrapper apiKey={'AIzaSyAdtcoLhT9SyVaQjYXyfApBxzPrBYVz9JE'}>
+            <Wrapper apiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY}>
               {data.placeDetail && data.placeDetail.placeInfo && (
                 <ReviewHomes
                   lat={data.placeDetail.placeInfo.lat}
