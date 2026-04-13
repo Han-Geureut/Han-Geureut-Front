@@ -1,4 +1,4 @@
-﻿import styled from 'styled-components';
+import styled from 'styled-components';
 import Profile from '../../assets/images/profilepicture.png';
 import Logo from '../../assets/images/memorizelogo.png';
 import { Wrapper } from '@googlemaps/react-wrapper';
@@ -251,6 +251,27 @@ const OverlayButton = styled(Link)`
   font-size: 1vw;
 `;
 
+const ReviewWriteButton = styled(Link)`
+  padding: 0.55vw 1.1vw;
+  border-radius: 0.35vw;
+  background: #5e81ff;
+  color: #fff;
+  font-family: Pretendard, sans-serif;
+  font-size: 0.95vw;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+  &:hover {
+    opacity: 0.92;
+  }
+`;
+
+const HeaderRight = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 1.2vw;
+`;
+
 
 const imageVariants = {
   hidden: { opacity: 0, y: 50 },
@@ -300,7 +321,7 @@ const Template = () => {
       const authToken = localStorage.getItem('authToken');
       try {
         const response = await fetch(
-          `${process.env.REACT_APP_API_URL}/api/album/${albumId}`,
+            `${process.env.REACT_APP_API_URL}/api/album/${albumId}`,
           {
             method: 'GET',
             headers: {
@@ -333,7 +354,12 @@ const Template = () => {
               {album && <Infop>{album.album_info}</Infop>}
             </ColumnContainer>
           </ImageContainer>
-          <img src={Logo} style={{ width: '4vw', height: '4vw' }} />
+          <HeaderRight>
+            <ReviewWriteButton to={`/Writereview/${albumId}`}>
+              리뷰쓰기
+            </ReviewWriteButton>
+            <img src={Logo} style={{ width: '4vw', height: '4vw' }} />
+          </HeaderRight>
         </HeaderContainer>
 
         <BodyContainer>
