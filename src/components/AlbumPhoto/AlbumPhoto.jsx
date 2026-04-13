@@ -1,4 +1,4 @@
-﻿import styled from 'styled-components';
+import styled from 'styled-components';
 import Createphoto1 from '../../assets/images/createphoto1.png';
 import Createphoto2 from '../../assets/images/createphoto2.png';
 import Createphoto3 from '../../assets/images/createphoto3.png';

@@ -1,4 +1,4 @@
-﻿import styled from 'styled-components';
+import styled from 'styled-components';
 import { NavLink, Link } from 'react-router-dom';
 import Logo from '../../assets/images/Logo.png';
 import { useNavigate } from 'react-router-dom';
