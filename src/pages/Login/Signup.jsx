@@ -151,7 +151,7 @@ const Signup = () => {
     }
     try {
       const response = await axios.post(
-        'https://api.hangrt.site/api/user/signup',
+        '${process.env.REACT_APP_API_URL}/api/user/signup',
         {
           loginId,
           password,

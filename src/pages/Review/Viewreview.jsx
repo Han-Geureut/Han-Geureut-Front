@@ -270,7 +270,7 @@ const Viewreview = () => {
   const handleSearch = async () => {
     const authToken = localStorage.getItem('authToken');
     const url = new URL(
-      'https://api.hangrt.site/api/reviews/places/${placeId}'
+      '${process.env.REACT_APP_API_URL}/api/reviews/places/${placeId}'
     );
     const params = { keyword, page, pageCount };
     url.search = new URLSearchParams(params).toString();
@@ -298,7 +298,7 @@ const Viewreview = () => {
   useEffect(() => {
     const fetchData = async () => {
       const authToken = localStorage.getItem('authToken');
-      const url = new URL('https://api.hangrt.site/api/reviews');
+      const url = new URL('${process.env.REACT_APP_API_URL}/api/reviews');
       const params = { sortStatus, page, pageCount };
       url.search = new URLSearchParams(params).toString();
 

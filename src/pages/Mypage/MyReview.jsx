@@ -100,7 +100,7 @@ const MyReview = ({ page = 1, pageCount = 10 }) => {
 
       try {
         const response = await fetch(
-          `https://api.hangrt.site/api/reviews/users?userId=${userId}&page=${page}&pageCount=${pageCount}`,
+          `${process.env.REACT_APP_API_URL}/api/reviews/users?userId=${userId}&page=${page}&pageCount=${pageCount}`,
           {
             method: 'GET',
             headers: {

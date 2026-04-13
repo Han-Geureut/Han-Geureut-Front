@@ -140,7 +140,7 @@ const deleteAlbum = async (albumId) => {
 
   try {
     const response = await fetch(
-      `https://api.hangrt.site/api/album/${albumId}`,
+      `${process.env.REACT_APP_API_URL}/api/album/${albumId}`,
       {
         method: 'DELETE',
         headers: {
@@ -187,7 +187,7 @@ const Travelog = ({ title = 'Travelog' }) => {
 
     try {
       const response = await fetch(
-        `https://api.hangrt.site/api/album/like/${albumId}`,
+        `${process.env.REACT_APP_API_URL}/api/album/like/${albumId}`,
         {
           method: 'POST',
           headers: {
@@ -234,7 +234,7 @@ const Travelog = ({ title = 'Travelog' }) => {
 
     try {
       const response = await fetch(
-        `https://api.hangrt.site/api/slideshow/${albumId}`,
+        `${process.env.REACT_APP_API_URL}/api/slideshow/${albumId}`,
         {
           method: 'GET',
           headers: {
@@ -262,7 +262,7 @@ const Travelog = ({ title = 'Travelog' }) => {
   useEffect(() => {
     const fetchData = async () => {
       const authToken = localStorage.getItem('authToken');
-      const url = new URL('https://api.hangrt.site/api/album');
+      const url = new URL('${process.env.REACT_APP_API_URL}/api/album');
       const params = {
         sortStatus: '_POPULAR',
         page: 1,

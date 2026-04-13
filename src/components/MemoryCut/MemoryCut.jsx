@@ -155,7 +155,7 @@ const MemoryCut = () => {
   const fetchSlideshow = async () => {
     const authToken = localStorage.getItem('authToken');
     try {
-      const response = await fetch('https://api.hangrt.site/api/slideshow', {
+      const response = await fetch('${process.env.REACT_APP_API_URL}/api/slideshow', {
         method: 'GET',
         headers: {
           Authorization: `Bearer ${authToken}`,
@@ -188,7 +188,7 @@ const MemoryCut = () => {
     const authToken = localStorage.getItem('authToken');
     try {
       const response = await fetch(
-        `https://api.hangrt.site/api/album/like/${albumId}`,
+        `${process.env.REACT_APP_API_URL}/api/album/like/${albumId}`,
         {
           method: 'POST',
           headers: {

@@ -325,7 +325,7 @@ const UserTravelog = ({ title = 'Travelog' }) => {
   useEffect(() => {
     const fetchData = async () => {
       const authToken = localStorage.getItem('authToken');
-      const url = new URL(`https://api.hangrt.site/api/album/users/${id}`);
+      const url = new URL(`${process.env.REACT_APP_API_URL}/api/album/users/${id}`);
       const params = { sortStatus, page, pageCount };
       url.search = new URLSearchParams(params).toString();
 
@@ -366,7 +366,7 @@ const UserTravelog = ({ title = 'Travelog' }) => {
 
     try {
       const response = await fetch(
-        `https://api.hangrt.site/api/album/${albumId}`,
+        `${process.env.REACT_APP_API_URL}/api/album/${albumId}`,
         {
           method: 'DELETE',
           headers: {
@@ -411,7 +411,7 @@ const UserTravelog = ({ title = 'Travelog' }) => {
     // API 요청 보내기
     try {
       const response = await fetch(
-        `https://api.hangrt.site/api/album/like/${albumId}`,
+        `${process.env.REACT_APP_API_URL}/api/album/like/${albumId}`,
         {
           method: 'POST',
           headers: {

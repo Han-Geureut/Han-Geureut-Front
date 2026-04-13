@@ -355,7 +355,7 @@ const Writereview = () => {
     const authToken = localStorage.getItem('authToken');
 
     try {
-      const response = await fetch(`https://api.hangrt.site/api/reviews`, {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/reviews`, {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${authToken}`,

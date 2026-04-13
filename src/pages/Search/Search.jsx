@@ -201,7 +201,7 @@ const Search = () => {
 
   const handleSearch = async () => {
     const authToken = localStorage.getItem('authToken');
-    const url = `https://api.hangrt.site/search/keyword?keyword=${encodeURIComponent(
+    const url = `${process.env.REACT_APP_API_URL}/search/keyword?keyword=${encodeURIComponent(
       keyword
     )}`;
     try {

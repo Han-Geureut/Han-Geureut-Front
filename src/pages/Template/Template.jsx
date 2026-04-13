@@ -273,7 +273,7 @@ const Template = () => {
   //     const authToken = localStorage.getItem('authToken');
   //     try {
   //       const response = await fetch(
-  //         `https://api.hangrt.site/api/album/GoogleMapsPlatform/${albumId}`,
+  //         `${process.env.REACT_APP_API_URL}/api/album/GoogleMapsPlatform/${albumId}`,
   //         {
   //           method: 'GET',
   //           headers: {
@@ -300,7 +300,7 @@ const Template = () => {
       const authToken = localStorage.getItem('authToken');
       try {
         const response = await fetch(
-          `https://api.hangrt.site/api/album/${albumId}`,
+          `${process.env.REACT_APP_API_URL}/api/album/${albumId}`,
           {
             method: 'GET',
             headers: {

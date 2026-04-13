@@ -294,7 +294,7 @@ const TemplateDetail = () => {
       const authToken = localStorage.getItem('authToken');
       try {
         const response = await fetch(
-          `https://api.hangrt.site/api/photo/${photoId}`,
+          `${process.env.REACT_APP_API_URL}/api/photo/${photoId}`,
           {
             method: 'GET',
             headers: {

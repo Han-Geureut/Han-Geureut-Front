@@ -247,7 +247,7 @@ const Profile = () => {
       const userId = localStorage.getItem('userId');
       try {
         const response = await fetch(
-          `https://api.hangrt.site/api/user/profile/${userId}`,
+          `${process.env.REACT_APP_API_URL}/api/user/profile/${userId}`,
           {
             method: 'GET',
             headers: {
@@ -315,7 +315,7 @@ const Profile = () => {
 
     try {
       const response = await fetch(
-        `https://api.hangrt.site/api/user/profile`,
+        `${process.env.REACT_APP_API_URL}/api/user/profile`,
         {
           method: 'PUT',
           headers: {
@@ -361,7 +361,7 @@ const Profile = () => {
       const authToken = localStorage.getItem('authToken');
 
       try {
-        const response = await fetch('https://api.hangrt.site/api/voice', {
+        const response = await fetch('${process.env.REACT_APP_API_URL}/api/voice', {
           method: 'POST',
           headers: {
             Authorization: `Bearer ${authToken}`,

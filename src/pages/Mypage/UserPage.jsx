@@ -123,7 +123,7 @@ const Userpage = () => {
       const authToken = localStorage.getItem('authToken');
       try {
         const response = await fetch(
-          `https://api.hangrt.site/api/user/profile/${userId}`,
+          `${process.env.REACT_APP_API_URL}/api/user/profile/${userId}`,
           {
             method: 'GET',
             headers: {
@@ -155,7 +155,7 @@ const Userpage = () => {
 
     try {
       const response = await fetch(
-        `https://api.hangrt.site/api/user/follow/${userId}`,
+        `${process.env.REACT_APP_API_URL}/api/user/follow/${userId}`,
         {
           method,
           headers: {

@@ -185,7 +185,7 @@ const Detailreview = () => {
       const authToken = localStorage.getItem('authToken');
       try {
         const response = await fetch(
-          `https://api.hangrt.site/search/placeDetail/${id}`,
+          `${process.env.REACT_APP_API_URL}/search/placeDetail/${id}`,
           {
             method: 'GET',
             headers: {
@@ -209,7 +209,7 @@ const Detailreview = () => {
       const authToken = localStorage.getItem('authToken');
       try {
         const response = await fetch(
-          `https://api.hangrt.site/api/reviews/places/${id}?page=1&pageCount=10`,
+          `${process.env.REACT_APP_API_URL}/api/reviews/places/${id}?page=1&pageCount=10`,
           {
             method: 'GET',
             headers: {
