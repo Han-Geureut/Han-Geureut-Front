@@ -262,7 +262,7 @@ const Travelog = ({ title = 'Travelog' }) => {
   useEffect(() => {
     const fetchData = async () => {
       const authToken = localStorage.getItem('authToken');
-      const url = new URL('${process.env.REACT_APP_API_URL}/api/album');
+      const url = new URL(`${process.env.REACT_APP_API_URL}/api/album`);
       const params = {
         sortStatus: '_POPULAR',
         page: 1,

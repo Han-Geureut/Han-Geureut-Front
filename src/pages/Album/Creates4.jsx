@@ -212,7 +212,7 @@ const Creates4 = () => {
     const authToken = localStorage.getItem('authToken');
 
     try {
-      const response = await fetch('${process.env.REACT_APP_API_URL}/api/album', {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/album`, {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${authToken}`,

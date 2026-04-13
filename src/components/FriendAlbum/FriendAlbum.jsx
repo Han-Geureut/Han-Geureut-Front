@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+﻿import styled from 'styled-components';
 import FriendsImage from '../../assets/images/friendsimage.png';
 import Share from '../../assets/images/share.png';
 import { Link } from 'react-router-dom';

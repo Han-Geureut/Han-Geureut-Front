@@ -431,7 +431,7 @@ const WholeTravelog = ({ title = 'Travelog' }) => {
   useEffect(() => {
     const fetchData = async () => {
       const authToken = localStorage.getItem('authToken');
-      const url = new URL('${process.env.REACT_APP_API_URL}/api/album');
+      const url = new URL(`${process.env.REACT_APP_API_URL}/api/album`);
       const params = { sortStatus, page, pageCount };
       url.search = new URLSearchParams(params).toString();
 
