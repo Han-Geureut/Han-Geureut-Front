@@ -102,8 +102,6 @@ const Header = () => {
           <StyledNavLink to="/" exact>
             홈
           </StyledNavLink>
-          <StyledNavLink to="/Creates1">앨범생성</StyledNavLink>
-          <StyledNavLink to="/Viewreview">리뷰</StyledNavLink>
           <StyledNavLink to="/Mypage">마이페이지</StyledNavLink>
           <SearchBarContainer onClick={() => navigate('/search')}>
             <SearchInput />
