@@ -1,4 +1,4 @@
-﻿import styled from 'styled-components';
+import styled from 'styled-components';
 import Createphoto1 from '../../assets/images/createphoto1.png';
 import Createphoto2 from '../../assets/images/createphoto2.png';
 import Createphoto3 from '../../assets/images/createphoto3.png';
@@ -49,18 +49,22 @@ const AlbumPhoto = () => {
             <img
               src={Createphoto1}
               style={{ width: '14.7vw', height: '16.7vw' }}
+              alt=""
             />
             <img
               src={Createphoto2}
               style={{ width: '14.7vw', height: '16.7vw' }}
+              alt=""
             />
             <img
               src={Createphoto3}
               style={{ width: '14.7vw', height: '16.7vw' }}
+              alt=""
             />
             <img
               src={Createphoto4}
               style={{ width: '14.7vw', height: '16.7vw' }}
+              alt=""
             />
           </ImageContainer>
         </CreatesContainer>
