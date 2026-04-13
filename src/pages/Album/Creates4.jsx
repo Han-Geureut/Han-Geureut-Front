@@ -1,4 +1,4 @@
-﻿import styled from 'styled-components';
+import styled from 'styled-components';
 import Header from '../../components/Header/Header';
 import CreateBanner from '../../assets/images/CreateBanner.png';
 import CircleLine from '../../assets/images/creates4.png';
@@ -188,9 +188,9 @@ const AlbumAccess = {
 };
 
 const Creates4 = () => {
-  const { albumName, albumInfo, images } = useAlbum();
+  const navigate = useNavigate();
+  const { albumName, albumInfo, images, setAlbumId } = useAlbum();
   const [albumAccess, setAlbumAccess] = useState('_PUBLIC');
-  const { setAlbumId } = useAlbum();
   const [isOpen, setIsOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -237,8 +237,6 @@ const Creates4 = () => {
       console.error('Submission error:', error);
     }
   };
-
-  const navigate = useNavigate();
 
   const goToCreates3 = () => {
     navigate('/creates3');
