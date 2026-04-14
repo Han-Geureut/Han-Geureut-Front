@@ -47,7 +47,7 @@ const Logotitle = styled.p`
   color: #0034ed;
 `;
 
-/* 검색 텍스트 버튼 (박스 없음) */
+/* 검색 텍스트 버튼 */
 const SearchText = styled.p`
   color: #000;
   font-family: Pretendard;
@@ -63,6 +63,7 @@ const SearchText = styled.p`
 const Header = () => {
   const navigate = useNavigate();
   const isAuthenticated = useAuth();
+
   const handleLogout = () => {
     localStorage.removeItem('authToken');
     localStorage.removeItem('refreshToken');
@@ -97,7 +98,6 @@ const Header = () => {
       </HeaderContainer>
     </>
   );
-
 };
 
 export default Header;
