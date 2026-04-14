@@ -79,7 +79,7 @@ const Header = () => {
             <Logotitle>MEMORAIZE</Logotitle>
           </HeaderLogo>
 
-          <StyledNavLink to="/">홈</StyledNavLink>
+          <StyledNavLink to="/">홈</StyledNavLink> {/* exact 제거 */}
           <StyledNavLink to="/Mypage">마이페이지</StyledNavLink>
 
           {/* 검색 버튼 */}
