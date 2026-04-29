@@ -4,7 +4,6 @@ import Header from '../../components/Header/Header';
 import HomeBanner from '../../assets/images/HomeBanner.png';
 import Travelog from '../../components/Travelog/Travelog';
 import FriendAlbum from '../../components/FriendAlbum/FriendAlbum';
-import MemoryCut from '../../components/MemoryCut/MemoryCut';
 
 const StyledBannerContainer = styled.div`
   width: 100%;
@@ -68,7 +67,7 @@ const Home = () => {
       <StyledBannerContainer>
         <TextContainer>
           <BannerText2>당신의 순간으로부터,</BannerText2>
-          <BannerText2>맞춤형 여행 앨범으로 추억을 되새겨 보세요!</BannerText2>
+          <BannerText2>맞춤형 음식 앨범으로 추억을 되새겨 보세요!</BannerText2>
           <AlbumCreateButton to="/Creates1">앨범 생성</AlbumCreateButton>
         </TextContainer>
       </StyledBannerContainer>
@@ -76,7 +75,6 @@ const Home = () => {
       <Container>
         <Travelog />
         {/* <FriendAlbum /> */}
-        <MemoryCut />
       </Container>
     </>
   );
