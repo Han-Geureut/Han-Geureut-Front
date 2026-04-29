@@ -30,10 +30,9 @@ const TravelContainer = styled.div`
 const CreatesContainer = styled.div`
   display: flex;
   flex-direction: column;
-  width: 60%;
+  width: 90%;
   margin-top: 7.65vw;
-  margin-bottom: 7.5vw;
-  height: 72vw;
+  margin-bottom: 3.2vw;
   align-items: center;
 `;
 
@@ -47,10 +46,11 @@ const Travelo = styled.p`
 `;
 
 const AlbumContainer = styled.div`
+  width: 100%;
   margin-top: 2.4vw;
   display: flex;
   flex-direction: row;
-  gap: 1.9vw;
+  gap: 0.8vw;
   flex-wrap: wrap;
 `;
 
@@ -58,17 +58,16 @@ const Album = styled.div`
   display: flex;
   position: relative;
   flex-direction: column;
-  margin-bottom: 2vw;
-  width: calc((100% - 2.2vw * 2) / 3);
-  min-width: 18.5vw;
+  margin-bottom: 0.8vw;
+  width: calc((100% - 0.8vw * 5) / 6);
 `;
 
 const Detail = styled.div`
   width: 100%;
-  height: 7.4vw;
+  height: 5.2vw;
   flex-shrink: 0;
   background: #f5f5f5;
-  padding: 1.6vw 1.4vw 0.85vw 1.3vw;
+  padding: 0.9vw 0.8vw 0.6vw;
 `;
 
 const TitleContainer = styled.div`
@@ -79,13 +78,15 @@ const TitleContainer = styled.div`
 
 const AlbumImage = styled.img`
   width: 100%;
-  height: 21vw;
+  aspect-ratio: 3 / 4;
+  height: auto;
+  object-fit: cover;
 `;
 
 const Title = styled.p`
   color: #000;
   font-family: Pretendard;
-  font-size: 1vw;
+  font-size: 0.75vw;
   font-style: normal;
   font-weight: 600;
   line-height: normal;
@@ -94,12 +95,12 @@ const Title = styled.p`
 const Made = styled.p`
   color: #000;
   font-family: Pretendard;
-  font-size: 0.8vw;
+  font-size: 0.62vw;
   font-style: normal;
   font-weight: 500;
   line-height: normal;
-  margin-top: 0.3vw;
-  margin-bottom: 1.3vw;
+  margin-top: 0.2vw;
+  margin-bottom: 0;
 `;
 
 const HashTag = styled.p`
