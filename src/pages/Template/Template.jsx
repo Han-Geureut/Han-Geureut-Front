@@ -80,16 +80,16 @@ const Infop = styled.p`
   line-height: 1.2vw;
 `;
 const MapContainer = styled.div`
-  width: 100%;
-  margin-top: 8.4vw;
-  height: 23.5vw;
+  width: 48%;
+  margin-top: 4vw;
+  height: 70vh;
   border-radius: 10px;
   overflow: hidden;
   display: flex;
-  /* background-color: yellow; */
-
   justify-content: center;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 2vw;
 `;
 
 const AlbumContainer = styled.div`
@@ -180,16 +180,25 @@ const ColumnContainer = styled.div`
 `;
 
 const BodyContainer = styled.div`
-  width: 50%;
+  width: min(94vw, 1500px);
   height: 1000%;
   margin-bottom: 10vw;
   display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 1.2vw;
+`;
+
+const PhotoColumn = styled.div`
+  width: 48%;
+  display: flex;
   flex-direction: column;
-  align-items: center;
+  gap: 2.2vw;
+  margin-top: 4vw;
 `;
 
 const TripImageContainer = styled.div`
-  margin-top: 8vw;
   width: 100%;
 `;
 //albumId = 13
@@ -226,7 +235,11 @@ const InfoTextContainer = styled.div`
 
 const TravelContainer = styled.div`
   width: 100%;
-  height: 35vw;
+  height: 70vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f3f6fe;
   position: relative;
   border-radius: 1vw;
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.6); // 그림자 설정
@@ -368,9 +381,8 @@ const Template = () => {
               <Homes album={album} />
             </Wrapper>
           </MapContainer>
-
-          {album?.photo_list?.map((photo, index) => (
-            
+          <PhotoColumn>
+            {album?.photo_list?.map((photo, index) => (
               <TripImageContainer key={index}>
                 <FadeInSection>
                 <InfoTextContainer>
@@ -385,14 +397,10 @@ const Template = () => {
                     src={photo.photo_url}
                     style={{
                       width: '100%',
-                      height: 'auto',
-                      objectFit: 'contain', // 이미지를 비율을 유지하면서 컨테이너를 채움
-                      objectPosition: 'center', // 이미지를 중앙에 배치
-                      position: 'absolute', // 부모 요소를 기준으로 절대 위치 설정
-                      top: '50%',
-                      left: '50%',
-                      transform: 'translate(-50%, -50%)' // 중앙에 배치 
-                      
+                      height: '100%',
+                      objectFit: 'contain',
+                      objectPosition: 'center',
+                      display: 'block',
                     }}
                   />
                   <OverlayButton
@@ -406,8 +414,8 @@ const Template = () => {
                 </TravelContainer>
                 </FadeInSection>
               </TripImageContainer>
-            
-          ))}
+            ))}
+          </PhotoColumn>
         </BodyContainer>
       </MainConatiner>
     </>

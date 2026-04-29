@@ -44,7 +44,7 @@ const HeaderLogo = styled.div`
 
 const Logotitle = styled.p`
   font-size: 1.2vw;
-  color: #0034ed;
+  color: #000;
 `;
 
 /* 검색 텍스트 버튼 */
@@ -75,8 +75,8 @@ const Header = () => {
       <HeaderContainer>
         <NavContainer>
           <HeaderLogo onClick={() => navigate('/')}>
-            <img src={Logo} style={{ width: '5.2vw', height: '5.2vw' }} />
-            <Logotitle>MEMORAIZE</Logotitle>
+            <img src={Logo} style={{ width: '5.2vw', height: '5.2vw', marginTop: '-0.5vw', }} />
+            <Logotitle>Hangeureut</Logotitle>
           </HeaderLogo>
 
           <StyledNavLink to="/">홈</StyledNavLink> {/* exact 제거 */}
