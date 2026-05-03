@@ -232,8 +232,8 @@ const Creates3 = () => {
       <Header />
       <StyledBannerContainer>
         <TextContainer>
-          <BannerText>여행의 순간을 담아</BannerText>
-          <BannerText>당신만의 여행 앨범을 만들어보세요.</BannerText>
+          <BannerText>음식을 사진에 담아내어</BannerText>
+          <BannerText>당신만의 앨범을 만들어보세요.</BannerText>
         </TextContainer>
       </StyledBannerContainer>
       <Container>
