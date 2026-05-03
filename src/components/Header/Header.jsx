@@ -4,22 +4,25 @@ import Logo from '../../assets/images/Logo.png';
 import { useNavigate } from 'react-router-dom';
 import useAuth from '../../useAuth/useAuth';
 
-const HeaderContainer = styled.div`
+const HeaderContainer = styled.header`
   width: 100%;
-  height: 8vw;
+  height: 9vw;
+  min-height: 64px;
   display: flex;
   align-items: center;
   flex-direction: row;
   justify-content: center;
-  box-shadow: 0 8px 6px -6px #00000029;
+  background: #ffffff;
+  box-sizing: border-box;
 `;
 
 const NavContainer = styled.div`
   display: flex;
   justify-content: space-between;
-  height: 1.45vw;
-  width: 70%;
   align-items: center;
+  height: 1.45vw;
+  min-height: 28px;
+  width: 70%;
   gap: 3.4vw;
 `;
 
@@ -28,32 +31,42 @@ const StyledNavLink = styled(NavLink)`
   font-family: Pretendard;
   font-size: 1.2vw;
   font-weight: 500;
+  text-decoration: none;
+  white-space: nowrap;
 
   &:hover {
     opacity: 0.8;
   }
 `;
 
-const HeaderLogo = styled.div`
+const HeaderLogo = styled.button`
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
+  background: none;
+  border: none;
+  padding: 0;
   cursor: pointer;
 `;
 
-const Logotitle = styled.p`
-  font-size: 1.2vw;
-  color: #000;
+const LogoImg = styled.img`
+  width: 7vw;
+  height: 7vw;
+  min-width: 52px;
+  min-height: 52px;
+  margin-top: -0.5vw;
+  object-fit: contain;
 `;
 
-/* 검색 텍스트 버튼 */
 const SearchText = styled.p`
   color: #000;
   font-family: Pretendard;
   font-size: 1.2vw;
   font-weight: 500;
   cursor: pointer;
+  margin: 0;
+  white-space: nowrap;
 
   &:hover {
     opacity: 0.7;
@@ -71,32 +84,24 @@ const Header = () => {
   };
 
   return (
-    <>
-      <HeaderContainer>
-        <NavContainer>
-          <HeaderLogo onClick={() => navigate('/')}>
-            <img src={Logo} style={{ width: '5.2vw', height: '5.2vw', marginTop: '-0.5vw', }} />
-            <Logotitle>Hangeureut</Logotitle>
-          </HeaderLogo>
+    <HeaderContainer>
+      <NavContainer>
+        <HeaderLogo type="button" onClick={() => navigate('/')}>
+          <LogoImg src={Logo} alt="" />
+        </HeaderLogo>
 
-          <StyledNavLink to="/">홈</StyledNavLink> {/* exact 제거 */}
-          <StyledNavLink to="/Mypage">마이페이지</StyledNavLink>
-
-          {/* 검색 버튼 */}
-          <SearchText onClick={() => navigate('/search')}>
-            검색
-          </SearchText>
-
-          {isAuthenticated ? (
-            <StyledNavLink to="/login" onClick={handleLogout}>
-              로그아웃
-            </StyledNavLink>
-          ) : (
-            <StyledNavLink to="/login">로그인</StyledNavLink>
-          )}
-        </NavContainer>
-      </HeaderContainer>
-    </>
+        <StyledNavLink to="/">홈</StyledNavLink>
+        <StyledNavLink to="/Mypage">마이페이지</StyledNavLink>
+        <SearchText onClick={() => navigate('/search')}>검색</SearchText>
+        {isAuthenticated ? (
+          <StyledNavLink to="/login" onClick={handleLogout}>
+            로그아웃
+          </StyledNavLink>
+        ) : (
+          <StyledNavLink to="/login">로그인</StyledNavLink>
+        )}
+      </NavContainer>
+    </HeaderContainer>
   );
 };
 
