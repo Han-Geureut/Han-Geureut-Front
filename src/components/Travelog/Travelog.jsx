@@ -220,7 +220,7 @@ const Travelog = ({ title = 'Travelog' }) => {
   };
 
   const { albumId } = useAlbum();
-  const [hearts, setHearts] = useState(new Array(AlbumData.length).fill(false));
+  const [hearts, setHearts] = useState([]);
 
   const toggleHeart = (index) => {
     const newHearts = [...hearts];
@@ -231,28 +231,44 @@ const Travelog = ({ title = 'Travelog' }) => {
   useEffect(() => {
     const fetchData = async () => {
       const authToken = localStorage.getItem('authToken');
-      const url = new URL(`${process.env.REACT_APP_API_URL}/api/album`);
-      const params = {
-        sortStatus: '_POPULAR',
-        page: 1,
-        pageCount: 6,
+      const headers = {
+        Authorization: `Bearer ${authToken}`,
+        'Content-Type': 'application/json',
       };
-      url.search = new URLSearchParams(params).toString();
+      const apiBase = `${process.env.REACT_APP_API_URL}/api/album`;
 
       try {
-        const response = await fetch(url, {
-          method: 'GET',
-          headers: {
-            Authorization: `Bearer ${authToken}`,
-            'Content-Type': 'application/json',
-          },
-        });
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
+        const countUrl = new URL(apiBase);
+        countUrl.search = new URLSearchParams({
+          sortStatus: '_POPULAR',
+          page: '1',
+          pageCount: '1',
+        }).toString();
+
+        const countRes = await fetch(countUrl, { method: 'GET', headers });
+        if (!countRes.ok) {
+          throw new Error(`HTTP error! status: ${countRes.status}`);
         }
-        const data = await response.json();
-        if (data && data.result && Array.isArray(data.result.albums)) {
-          setAlbums(data.result.albums);
+        const countData = await countRes.json();
+        const total = Number(countData?.result?.totalElements ?? 0);
+        const pageCount = total > 0 ? total : 1;
+
+        const listUrl = new URL(apiBase);
+        listUrl.search = new URLSearchParams({
+          sortStatus: '_POPULAR',
+          page: '1',
+          pageCount: String(pageCount),
+        }).toString();
+
+        const listRes = await fetch(listUrl, { method: 'GET', headers });
+        if (!listRes.ok) {
+          throw new Error(`HTTP error! status: ${listRes.status}`);
+        }
+        const data = await listRes.json();
+        if (data?.result?.albums && Array.isArray(data.result.albums)) {
+          const list = data.result.albums;
+          setAlbums(list);
+          setHearts(new Array(list.length).fill(false));
         }
         console.log(data);
       } catch (e) {
