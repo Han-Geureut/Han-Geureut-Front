@@ -46,7 +46,7 @@ const FollowButton = styled.button`
   width: 4.1vw;
   height: 2vw;
   border-radius: 4px;
-  background: ${(props) => (props.isFollowing ? '#e1e1e1' : '#5e81ff')};
+  background: ${(props) => (props.isFollowing ? '#e1e1e1' : '#ff6b00')};
   color: ${(props) => (props.isFollowing ? '#000' : '#fff')};
   font-family: Pretendard;
   font-size: 0.8vw;

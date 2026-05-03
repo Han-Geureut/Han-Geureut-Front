@@ -133,7 +133,7 @@ const SubmitButton = styled.button`
   height: 2.8vw;
   flex-shrink: 0;
   border-radius: 0.2vw;
-  background: #0034ed;
+  background: #ff6b00;
   color: #fff;
   font-family: Pretendard;
   font-size: 0.8vw;
@@ -180,7 +180,7 @@ const AudioPreview = styled.audio`
 `;
 
 const UploadButton = styled.label`
-  background-color: #0034ed;
+  background-color: #ff6b00;
   border: none;
   color: #ffffff;
   padding: 1vw 2vw; /* 패딩을 조절하여 버튼 크기 조정 가능 */

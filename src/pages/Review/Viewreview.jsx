@@ -1,4 +1,4 @@
-﻿import Header from '../../components/Header/Header';
+import Header from '../../components/Header/Header';
 import styled from 'styled-components';
 import Review from '../../components/Review/Review';
 import { useNavigate } from 'react-router-dom';
@@ -58,7 +58,7 @@ const NewButton = styled.button`
   align-items: center;
   gap: 0.5vw;
   border-radius: 2.5vw;
-  background: #0034ed;
+  background: #ff6b00;
   color: #fff;
   font-family: Pretendard;
   font-size: 1.2vw;
@@ -74,7 +74,7 @@ const PopularButton = styled.button`
   align-items: center;
   gap: 0.5vw;
   border-radius: 2.5vw;
-  border: 1px solid #0034ed;
+  border: 1px solid #ff6b00;
   background: #fff;
   color: #000;
   font-family: Pretendard;
@@ -91,7 +91,7 @@ const FollowButton = styled.button`
   align-items: center;
   gap: 10px;
   border-radius: 4px;
-  background: var(--2, #5e81ff);
+  background: var(--2, #ff6b00);
   color: #fff;
   font-family: Pretendard;
   font-size: 0.8vw;
@@ -142,8 +142,8 @@ const Button = styled.button`
   align-items: center;
   gap: 0.5vw;
   border-radius: 2.5vw;
-  border: 1px solid #0034ed;
-  background: ${(props) => (props.active ? '#0034ed' : '#fff')};
+  border: 1px solid #ff6b00;
+  background: ${(props) => (props.active ? '#ff6b00' : '#fff')};
   color: ${(props) => (props.active ? '#fff' : '#000')};
   font-family: Pretendard;
   font-size: 1.2vw;

@@ -1,4 +1,4 @@
-﻿import Header from '../../components/Header/Header';
+import Header from '../../components/Header/Header';
 import styled from 'styled-components';
 import axios from 'axios';
 import { useState } from 'react';
@@ -68,7 +68,7 @@ const CheckButton = styled.button`
   border-radius: 0.2vw;
   border: none;
   border-radius: 4px;
-  background: #0034ed;
+  background: #ff6b00;
   color: white; // 버튼 글자색
   cursor: pointer;
   color: #fff;
@@ -116,7 +116,7 @@ const SubmitButton = styled.button`
   height: 2.8vw;
   flex-shrink: 0;
   border-radius: 0.2vw;
-  background: #0034ed;
+  background: #ff6b00;
   color: #fff;
   font-family: Pretendard;
   font-size: 0.8vw;

@@ -1,5 +1,6 @@
-﻿import Header from '../../components/Header/Header';
+import Header from '../../components/Header/Header';
 import SearchBanner from '../../assets/images/searchbanner.png';
+import SearchLogo from '../../assets/images/searchLogo.png';
 import styled from 'styled-components';
 import RowLine from '../../assets/images/Vector 213.png';
 import Titleimage from '../../assets/images/titleimage.png';
@@ -76,7 +77,7 @@ const TextContainer = styled.div`
     position: absolute;
     bottom: -27.5px;
     width: 130%;
-    border-bottom: 2px solid #5e81ff;
+    border-bottom: 2px solid #ff6b00;
   }
 `;
 
@@ -110,16 +111,43 @@ const SearchBarContainer = styled.div`
   background: rgba(255, 255, 255, 0.25);
   display: flex;
   align-items: center;
+  padding: 0 0.6vw 0 1vw;
+  box-sizing: border-box;
+  gap: 0.5vw;
 `;
 
 const SearchInput = styled.input`
-  width: 100%;
+  flex: 1;
+  min-width: 0;
   border: none;
   font-size: 1.2vw;
   background: transparent;
   &:focus {
     outline: none;
   }
+`;
+
+const SearchIconButton = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  padding: 0.2vw;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+
+  &:hover {
+    opacity: 0.85;
+  }
+`;
+
+const SearchIconImg = styled.img`
+  width: 1.5vw;
+  height: 1.5vw;
+  min-width: 20px;
+  min-height: 20px;
+  object-fit: contain;
 `;
 
 const RoundImageContainer = styled.div`
@@ -144,34 +172,29 @@ const Search = () => {
     placeList: [],
   });
 
-  // 🔥 핵심 추가: 처음 들어오면 전체 앨범 불러오기
+  // 진입 시 빈 키워드로 앨범·사용자·장소 전체 목록 로드 (돋보기와 동일 응답)
   useEffect(() => {
-    const fetchAllAlbums = async () => {
+    const loadInitialLists = async () => {
+      const authToken = localStorage.getItem('authToken');
+
       try {
-        const authToken = localStorage.getItem('authToken');
-
         const response = await fetch(
-          `${process.env.REACT_APP_API_URL}/search/albums`,
-          {
-            headers: {
-              Authorization: `Bearer ${authToken}`,
-            },
-          }
+          `${process.env.REACT_APP_API_URL}/search/keyword?keyword=`,
+          { headers: { Authorization: `Bearer ${authToken}` } }
         );
-
         const data = await response.json();
-
-        setSearchResults((prev) => ({
-          ...prev,
-          albumList: data.result,
-        }));
-
+        const r = data.result;
+        setSearchResults({
+          albumList: r?.albumList ?? [],
+          userList: r?.userList ?? [],
+          placeList: r?.placeList ?? [],
+        });
       } catch (error) {
-        console.error("앨범 불러오기 실패:", error);
+        console.error('검색 초기 목록 불러오기 실패:', error);
       }
     };
 
-    fetchAllAlbums();
+    loadInitialLists();
   }, []);
 
   const handleNavigate = (item) => {
@@ -212,9 +235,9 @@ const Search = () => {
               onChange={(e) => setKeyword(e.target.value)}
               placeholder="검색"
             />
-            <div onClick={handleSearch} style={{ cursor: 'pointer' }}>
-              🔍
-            </div>
+            <SearchIconButton type="button" onClick={handleSearch} aria-label="검색">
+              <SearchIconImg src={SearchLogo} alt="" />
+            </SearchIconButton>
           </SearchBarContainer>
         </TextContainer2>
       </StyledBannerContainer>
