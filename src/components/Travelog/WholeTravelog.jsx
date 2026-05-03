@@ -13,7 +13,6 @@ import HomeBanner from '../../assets/images/HomeBanner.png';
 import arrowIcon from '../../assets/images/arrow_12px2.png';
 import arrow_12px from '../../assets/images/arrow_12px.png';
 import Trash from '../../assets/images/trash-2.png';
-import PlayButton from '../../assets/images/Start.png';
 
 const StyledLink = styled(Link)`
   text-decoration: none; // 링크의 밑줄 제거
@@ -182,8 +181,8 @@ const Button = styled.button`
   align-items: center;
   gap: 0.5vw;
   border-radius: 2.5vw;
-  border: 1px solid #0034ed;
-  background: ${(props) => (props.active ? '#0034ed' : '#fff')};
+  border: 1px solid #ff6b00;
+  background: ${(props) => (props.active ? '#ff6b00' : '#fff')};
   color: ${(props) => (props.active ? '#fff' : '#000')};
   font-family: Pretendard;
   font-size: 1.2vw;
@@ -199,7 +198,7 @@ const NewButton = styled.button`
   align-items: center;
   gap: 0.5vw;
   border-radius: 2.5vw;
-  background: #0034ed;
+  background: #ff6b00;
   color: #fff;
   font-family: Pretendard;
   font-size: 1.2vw;
@@ -215,7 +214,7 @@ const PopularButton = styled.button`
   align-items: center;
   gap: 0.5vw;
   border-radius: 2.5vw;
-  border: 1px solid #0034ed;
+  border: 1px solid #ff6b00;
   background: #fff;
   color: #000;
   font-family: Pretendard;
@@ -307,12 +306,11 @@ const PaginationComponent = ({ page, totalPages, handlePageChange }) => {
   );
 };
 
-const WholeTravelog = ({ title = 'Travelog' }) => {
+const WholeTravelog = ({ title = 'Foodlog' }) => {
   const [albums, setAlbums] = useState([]); // 앨범 데이터를 저장할 상태
   const [hearts, setHearts] = useState(new Array(6).fill(false));
 
   const [totalAlbums, setTotalAlbums] = useState(0);
-  const [slideshowUrl, setSlideshowUrl] = useState('');
   const [sortStatus, setSortStatus] = useState('_POPULAR');
   const [page, setPage] = useState(1); // 페이지 번호
   const [pageCount, setPageCount] = useState(9);
@@ -358,35 +356,6 @@ const WholeTravelog = ({ title = 'Travelog' }) => {
     } catch (e) {
       console.error('Failed to delete the album:', e);
       alert('작성자만 앨범 삭제가 가능합니다!');
-    }
-  };
-
-  const handlePlaySlideshow = async (albumId) => {
-    const authToken = localStorage.getItem('authToken');
-
-    try {
-      const response = await fetch(
-        `${process.env.REACT_APP_API_URL}/api/slideshow/${albumId}`,
-        {
-          method: 'GET',
-          headers: {
-            Authorization: `Bearer ${authToken}`,
-            'Content-Type': 'application/json',
-          },
-        }
-      );
-
-      if (response.ok) {
-        const data = await response.json();
-        console.log(data);
-        if (data.isSuccess) {
-          setSlideshowUrl(data.result); // Store the slideshow URL in state
-        }
-      } else {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-    } catch (e) {
-      console.error('Failed to fetch slideshow:', e);
     }
   };
 
@@ -473,7 +442,7 @@ const WholeTravelog = ({ title = 'Travelog' }) => {
 
       <StyledBannerContainer>
         <TextContainer>
-          <BannerText2>Travelog</BannerText2>
+          <BannerText2>Foodlog</BannerText2>
         </TextContainer>
       </StyledBannerContainer>
 
@@ -524,11 +493,6 @@ const WholeTravelog = ({ title = 'Travelog' }) => {
                         }}
                         onClick={() => deleteAlbum(album.albumId)}
                       />
-                      <img
-                        src={PlayButton}
-                        style={{ width: '1.75vw', cursor: 'pointer' }}
-                        onClick={() => handlePlaySlideshow(album.albumId)}
-                      />
                     </IconContainer>
                   </TitleContainer>
                   <Made>{new Date(album.createdAt).toLocaleDateString()}</Made>
@@ -543,14 +507,6 @@ const WholeTravelog = ({ title = 'Travelog' }) => {
               totalPages={totalPages}
               handlePageChange={handlePageChange}
             />
-          )}
-
-          {slideshowUrl && (
-            <div>
-              <a href={slideshowUrl} target="_blank" rel="noopener noreferrer">
-                View Slideshow
-              </a>
-            </div>
           )}
         </CreatesContainer>
       </Container>

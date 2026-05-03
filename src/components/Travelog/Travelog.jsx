@@ -10,7 +10,6 @@ import { AlbumProvider, useAlbum } from '../../AlbumContext/AlbumContext';
 import RightDirection from '../../assets/images/rightdirection.png';
 import { useNavigate } from 'react-router-dom';
 import Trash from '../../assets/images/trash-2.png';
-import PlayButton from '../../assets/images/Start.png';
 
 const StyledLink = styled(Link)`
   text-decoration: none;
@@ -177,7 +176,6 @@ const deleteAlbum = async (albumId) => {
 const Travelog = ({ title = 'Travelog' }) => {
   const [albums, setAlbums] = useState([]);
   const navigate = useNavigate();
-  const [slideshowUrl, setSlideshowUrl] = useState(''); // Add state for slideshow URL
 
   const handleLike = async (albumId, index) => {
     const newHearts = [...hearts];
@@ -228,36 +226,6 @@ const Travelog = ({ title = 'Travelog' }) => {
     const newHearts = [...hearts];
     newHearts[index] = !newHearts[index];
     setHearts(newHearts);
-  };
-
-  const handlePlaySlideshow = async (albumId) => {
-    const authToken = localStorage.getItem('authToken');
-
-    try {
-      const response = await fetch(
-        `${process.env.REACT_APP_API_URL}/api/slideshow/${albumId}`,
-        {
-          method: 'GET',
-          headers: {
-            Authorization: `Bearer ${authToken}`,
-            'Content-Type': 'application/json',
-          },
-        }
-      );
-
-      if (response.ok) {
-        const data = await response.json();
-        console.log(data);
-        if (data.isSuccess) {
-          setSlideshowUrl(data.result); // Store the slideshow URL in state
-          window.location.reload();
-        }
-      } else {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-    } catch (e) {
-      console.error('Failed to fetch slideshow:', e);
-    }
   };
 
   useEffect(() => {
@@ -335,11 +303,6 @@ const Travelog = ({ title = 'Travelog' }) => {
                       }}
                       onClick={() => deleteAlbum(album.albumId)}
                     />
-                    <img
-                      src={PlayButton}
-                      style={{ width: '1.75vw', cursor: 'pointer' }}
-                      onClick={() => handlePlaySlideshow(album.albumId)}
-                    />
                   </IconContainer>
                 </TitleContainer>
                 <Made>{new Date(album.createdAt).toLocaleDateString()}</Made>
@@ -347,13 +310,6 @@ const Travelog = ({ title = 'Travelog' }) => {
             </Album>
           ))}
         </AlbumContainer>
-        {/* {slideshowUrl && (
-          <div>
-            <a href={slideshowUrl} target="_blank" rel="noopener noreferrer">
-              View Slideshow
-            </a>
-          </div>
-        )} */}
       </CreatesContainer>
     </>
   );
