@@ -17,7 +17,7 @@ const TextContainer = styled.div`
 `;
 
 const Memoraize = styled.p`
-  color: var(--2, #5e81ff);
+  color: var(--2, #ff6b00);
   font-family: Pretendard;
   font-size: 10vw;
   font-style: normal;
