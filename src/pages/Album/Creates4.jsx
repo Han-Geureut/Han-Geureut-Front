@@ -60,7 +60,7 @@ const SubmitButton = styled.button`
   height: 2.8vw;
   flex-shrink: 0;
   border-radius: 0.2vw;
-  background: #5e81ff;
+  background: #ff6b00;
   color: #fff;
   font-family: Pretendard;
   font-size: 0.8vw;
@@ -68,7 +68,7 @@ const SubmitButton = styled.button`
   font-weight: 600;
   line-height: 1.2vw;
   &:disabled {
-    background: #3a5bbf; /* 더 진한 색상 */
+    background: #cc5500;
   }
 `;
 
@@ -284,7 +284,7 @@ const Creates4 = () => {
             <SubmitButton
               onClick={submitAlbum}
               disabled={isSubmitting}
-              style={isSubmitting ? { backgroundColor: '#3a5bbf' } : {}}
+              style={isSubmitting ? { backgroundColor: '#cc5500' } : {}}
             >
               앨범 생성하기
             </SubmitButton>

@@ -267,7 +267,7 @@ const OverlayButton = styled(Link)`
 const ReviewWriteButton = styled(Link)`
   padding: 0.55vw 1.1vw;
   border-radius: 0.35vw;
-  background: #5e81ff;
+  background: #ff6b00;
   color: #fff;
   font-family: Pretendard, sans-serif;
   font-size: 0.95vw;

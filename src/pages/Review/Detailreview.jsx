@@ -1,4 +1,4 @@
-﻿import Header from '../../components/Header/Header';
+import Header from '../../components/Header/Header';
 import styled from 'styled-components';
 import RevieweBanners from '../../assets/images/Writereviewbanner.png';
 import Review from '../../components/Review/Review';
@@ -161,7 +161,7 @@ const FollowButton = styled.button`
   align-items: center;
   gap: 10px;
   border-radius: 4px;
-  background: var(--2, #5e81ff);
+  background: var(--2, #ff6b00);
   color: #fff;
   font-family: Pretendard;
   font-size: 0.8vw;

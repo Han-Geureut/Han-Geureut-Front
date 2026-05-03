@@ -1,4 +1,4 @@
-﻿import styled from 'styled-components';
+import styled from 'styled-components';
 import Header from '../../components/Header/Header';
 import CreateBanner from '../../assets/images/CreateBanner.png';
 import CircleLine from '../../assets/images/creates1.png';
@@ -92,7 +92,7 @@ const SubmitButton = styled.button`
   height: 2.8vw;
   flex-shrink: 0;
   border-radius: 0.2vw;
-  background: #5e81ff;
+  background: #ff6b00;
   color: #fff;
   font-family: Pretendard;
   font-size: 0.8vw;

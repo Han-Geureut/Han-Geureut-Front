@@ -1,4 +1,4 @@
-﻿import { useState } from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { useAlbum } from '../../AlbumContext/AlbumContext';
@@ -101,7 +101,7 @@ const SubmitButton = styled.button`
   height: 2.8vw;
   flex-shrink: 0;
   border-radius: 0.2vw;
-  background: #5e81ff;
+  background: #ff6b00;
   color: #fff;
   font-family: Pretendard;
   font-size: 0.8vw;

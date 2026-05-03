@@ -1,17 +1,11 @@
 ﻿import styled from 'styled-components';
 import Header from '../../components/Header/Header';
-import Banner from '../../assets/images/Writereviewbanner.png';
 import Star from '../../assets/images/Vector (2).png';
 import { useState, useRef } from 'react';
 import css from 'styled-components';
 import Image from '../../assets/images/imageplus.png';
 import FillStar from '../../assets/images/Vector (1).png';
 import { useNavigate, useParams } from 'react-router-dom';
-
-const BannerContainer = styled.div`
-  width: 100%;
-  height: 27vw;
-`;
 
 const Container = styled.div`
   display: flex;
@@ -23,7 +17,7 @@ const CreatesContainer = styled.div`
   flex-direction: column;
   justify-content: flex-start;
   width: 58%;
-  margin-top: 7.65vw;
+  margin-top: 4vw;
   margin-bottom: 7.5vw;
   height: auto; /* Height is now auto to adjust as per content */
   align-items: center;
@@ -236,7 +230,7 @@ const SubmitButton = styled.button`
   height: 2.8vw;
   flex-shrink: 0;
   border-radius: 0.2vw;
-  background: #0034ed;
+  background: #ff6b00;
   color: #fff;
   font-family: Pretendard;
   font-size: 0.8vw;
@@ -379,9 +373,6 @@ const Writereview = () => {
   return (
     <>
       <Header />
-      <BannerContainer>
-        <img src={Banner} style={{ width: '100%', height: '27vw' }} />
-      </BannerContainer>
 
       <Container>
         <CreatesContainer>

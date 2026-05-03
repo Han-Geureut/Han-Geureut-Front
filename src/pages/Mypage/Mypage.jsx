@@ -46,7 +46,7 @@ const FollowButton = styled.button`
   width: 4.1vw;
   height: 2vw;
   border-radius: 4px;
-  background: var(--2, #5e81ff);
+  background: var(--2, #ff6b00);
   color: #fff;
   font-family: Pretendard;
   font-size: 0.8vw;
@@ -65,7 +65,7 @@ const EditProfileButton = styled.button`
   width: 6vw;
   height: 2vw;
   border-radius: 4px;
-  background: #5e81ff;
+  background: #ff6b00;
   color: #fff;
   font-family: Pretendard;
   font-size: 0.8vw;

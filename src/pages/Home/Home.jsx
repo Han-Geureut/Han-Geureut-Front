@@ -44,7 +44,7 @@ const AlbumCreateButton = styled(Link)`
   margin-top: 1vw;
   padding: 1vw 2.8vw;
   border-radius: 0.2vw;
-  background: #5e81ff;
+  background: #ff6b00;
   color: #fff;
   font-family: Pretendard;
   font-size: 1vw;
@@ -66,14 +66,14 @@ const Home = () => {
 
       <StyledBannerContainer>
         <TextContainer>
-          <BannerText2>당신의 순간으로부터,</BannerText2>
-          <BannerText2>맞춤형 음식 앨범으로 추억을 되새겨 보세요!</BannerText2>
+          <BannerText2>맛있는 순간을,</BannerText2>
+          <BannerText2>한그릇에 다같이 담다</BannerText2>
           <AlbumCreateButton to="/Creates1">앨범 생성</AlbumCreateButton>
         </TextContainer>
       </StyledBannerContainer>
 
       <Container>
-        <Travelog />
+        <Travelog title="Foodlog" />
         {/* <FriendAlbum /> */}
       </Container>
     </>

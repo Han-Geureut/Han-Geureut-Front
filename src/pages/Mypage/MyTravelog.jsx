@@ -11,7 +11,6 @@ import RightDirection from '../../assets/images/rightdirection.png';
 import { useNavigate } from 'react-router-dom';
 import Trash from '../../assets/images/trash-2.png';
 import { useEffect } from 'react';
-import PlayButton from '../../assets/images/Start.png';
 
 const StyledLink = styled(Link)`
   text-decoration: none; // 링크의 밑줄 제거
@@ -232,32 +231,6 @@ const MyTravelog = ({ title = 'Travelog' }) => {
     setHearts(newHearts); // 해당 인덱스의 하트 상태를 토글
   };
 
-  const handlePlaySlideshow = async (albumId) => {
-    const authToken = localStorage.getItem('authToken'); // 인증 토큰 가져오기
-
-    try {
-      const response = await fetch(
-        `${process.env.REACT_APP_API_URL}/api/slideshow/${albumId}`,
-        {
-          method: 'GET', // HTTP 메소드 설정
-          headers: {
-            Authorization: `Bearer ${authToken}`, // 헤더에 인증 토큰 포함
-            'Content-Type': 'application/json',
-          },
-        }
-      );
-
-      if (response.ok) {
-        const data = await response.json();
-        console.log(data);
-      } else {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-    } catch (e) {
-      console.error('Failed to fetch slideshow:', e);
-    }
-  };
-
   useEffect(() => {
     const fetchData = async () => {
       const authToken = localStorage.getItem('authToken');
@@ -333,11 +306,6 @@ const MyTravelog = ({ title = 'Travelog' }) => {
                         cursor: 'pointer',
                       }}
                       onClick={() => deleteAlbum(album.albumId)}
-                    />
-                    <img
-                      src={PlayButton}
-                      style={{ width: '1.75vw', cursor: 'pointer' }}
-                      onClick={() => handlePlaySlideshow(album.albumId)} // album.albumId로 정확히 전달
                     />
                   </IconContainer>
                 </TitleContainer>

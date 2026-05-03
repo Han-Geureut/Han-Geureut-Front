@@ -1,4 +1,4 @@
-﻿import Header from '../../components/Header/Header';
+import Header from '../../components/Header/Header';
 import styled from 'styled-components';
 import kakao from '../../assets/images/kakao.png';
 import { useState } from 'react';
@@ -77,7 +77,7 @@ const LoginBtn = styled.button`
   font-weight: 600;
   line-height: normal;
   border-radius: 0.5vw;
-  background: var(--MAIN, #0034ed);
+  background: var(--MAIN, #ff6b00);
   margin-bottom: 0.8vw;
 `;
 
@@ -86,7 +86,7 @@ const JoinBtn = styled.button`
   height: 3vw;
   flex-shrink: 0;
   border-radius: 0.5vw;
-  border: 1px solid var(--MAIN, #0034ed);
+  border: 1px solid var(--MAIN, #ff6b00);
   color: #000;
   font-family: Pretendard;
   font-size: 0.9vw;

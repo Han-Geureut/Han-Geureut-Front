@@ -1,4 +1,4 @@
-﻿import styled from 'styled-components';
+import styled from 'styled-components';
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import PlayButton from '../../assets/images/Start.png';
@@ -21,7 +21,7 @@ const BackgroundContainer = styled.div`
 const HalfCircle = styled.div`
   border-radius: 100% 100% 0 0;
   opacity: 0.08;
-  background: var(--2, #5e81ff);
+  background: var(--2, #ff6b00);
   width: 200%;
   height: 87.9vw;
   position: absolute;
