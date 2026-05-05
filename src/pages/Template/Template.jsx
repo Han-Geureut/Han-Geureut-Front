@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import Profile from '../../assets/images/profilepicture.png';
 import Logo from '../../assets/images/memorizelogo.png';
 import { Wrapper } from '@googlemaps/react-wrapper';
 import Map from '../../components/Map/Map';
@@ -82,7 +81,7 @@ const Infop = styled.p`
 const MapContainer = styled.div`
   width: 48%;
   margin-top: 4vw;
-  height: 70vh;
+  height: calc(70vh + 3vw);
   border-radius: 10px;
   overflow: hidden;
   display: flex;
@@ -361,7 +360,7 @@ const Template = () => {
       <MainConatiner>
         <HeaderContainer>
           <ImageContainer>
-            <img src={Profile} style={{ width: '3vw', height: '3vw' }} />
+            <img src={Logo} style={{ width: '6vw', height: '6vw' }} />
             <ColumnContainer>
               {album && <Profilep>{album.album_title}</Profilep>}
               {album && <Infop>{album.album_info}</Infop>}
@@ -371,7 +370,6 @@ const Template = () => {
             <ReviewWriteButton to={`/Writereview/${albumId}`}>
               리뷰쓰기
             </ReviewWriteButton>
-            <img src={Logo} style={{ width: '4vw', height: '4vw' }} />
           </HeaderRight>
         </HeaderContainer>
 

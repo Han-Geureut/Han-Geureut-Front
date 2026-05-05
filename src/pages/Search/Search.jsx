@@ -26,7 +26,7 @@ const RowContainer = styled.div`
   flex-direction: row;
   justify-content: space-between;
   margin-bottom: 1vw;
-  gap: 6vw;
+  gap: 9vw;
 `;
 
 const Text = styled.p`
@@ -40,7 +40,7 @@ const ColumnContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 0.4vw;
-  margin-left: 1.8vw;
+  margin-left: ${(props) => (props.noImage ? '0' : '1.8vw')};
 `;
 
 const CreatesContainer = styled.div`
@@ -56,14 +56,25 @@ const TitleContainer = styled.div`
   display: flex;
   align-items: center;
   width: 100%;
+  padding: 0.9vw 1vw;
+  border: 1px solid transparent;
+  border-radius: 0.7vw;
+  transition: border-color 0.18s ease, box-shadow 0.18s ease, background-color 0.18s ease;
+
+  &:hover {
+    border-color: #d9d9d9;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    background: #fff;
+  }
 `;
 
 const TitleP = styled.p`
-  font-size: 1vw;
+  font-size: 1.12vw;
+  font-weight: 600;
 `;
 
 const IdP = styled.p`
-  font-size: 0.8vw;
+  font-size: 0.92vw;
   color: #707070;
 `;
 
@@ -108,7 +119,9 @@ const TextContainer2 = styled.div`
 const SearchBarContainer = styled.div`
   width: 58.95vw;
   height: 3vw;
-  background: rgba(255, 255, 255, 0.25);
+  background: #ffffff;
+  border: 1px solid #e1e1e1;
+  border-radius: 999px;
   display: flex;
   align-items: center;
   padding: 0 0.6vw 0 1vw;
@@ -200,6 +213,8 @@ const Search = () => {
   const handleNavigate = (item) => {
     if (selectedCategory === 'place') {
       navigate(`/Detailreview/${item.id}`);
+    } else if (selectedCategory === 'album') {
+      navigate(`/Template/${item.albumId || item.id}`);
     } else if (selectedCategory === 'user') {
       navigate(`/Userpage/${item.id}`);
     }
@@ -249,11 +264,11 @@ const Search = () => {
             <TextContainer onClick={() => setSelectedCategory('album')}>
               <Text isSelected={selectedCategory === 'album'}>앨범명</Text>
             </TextContainer>
-            <TextContainer onClick={() => setSelectedCategory('user')}>
-              <Text isSelected={selectedCategory === 'user'}>사용자</Text>
-            </TextContainer>
             <TextContainer onClick={() => setSelectedCategory('place')}>
               <Text isSelected={selectedCategory === 'place'}>장소</Text>
+            </TextContainer>
+            <TextContainer onClick={() => setSelectedCategory('user')}>
+              <Text isSelected={selectedCategory === 'user'}>사용자</Text>
             </TextContainer>
           </RowContainer>
 
@@ -261,18 +276,17 @@ const Search = () => {
 
           {searchResults[selectedCategory + 'List']?.map((item, index) => (
             <TitleContainer key={index} onClick={() => handleNavigate(item)}>
-              <RoundImageContainer>
-                <RoundImage
-                  src={item.profileImg || item.mainImg || Titleimage}
-                />
-              </RoundImageContainer>
+              {selectedCategory === 'album' && (
+                <RoundImageContainer>
+                  <RoundImage
+                    src={item.profileImg || item.mainImg || Titleimage}
+                  />
+                </RoundImageContainer>
+              )}
 
-              <ColumnContainer>
+              <ColumnContainer noImage={selectedCategory !== 'album'}>
                 <TitleP>
-                  {item.albumName ||
-                    item.context ||
-                    item.placeName ||
-                    item.userName}
+                  {item.albumName || item.context || item.placeName || item.userName}
                 </TitleP>
 
                 <IdP>

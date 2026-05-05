@@ -7,8 +7,6 @@ import FilledHeart from '../../assets/images/heart.png';
 import { useState } from 'react';
 import { useContext } from 'react';
 import { AlbumProvider, useAlbum } from '../../AlbumContext/AlbumContext';
-import RightDirection from '../../assets/images/rightdirection.png';
-import { useNavigate } from 'react-router-dom';
 import Trash from '../../assets/images/trash-2.png';
 import { useEffect } from 'react';
 
@@ -175,7 +173,6 @@ const deleteAlbum = async (albumId) => {
 
 const MyTravelog = ({ title = 'Travelog' }) => {
   const [albums, setAlbums] = useState([]);
-  const navigate = useNavigate();
 
   const handleLike = async (albumId, index) => {
     // 로컬 상태를 먼저 업데이트
@@ -216,10 +213,6 @@ const MyTravelog = ({ title = 'Travelog' }) => {
       newHearts[index] = !newHearts[index];
       setHearts(newHearts);
     }
-  };
-
-  const handleRightDirectionClick = () => {
-    navigate('/WholeTravelog');
   };
 
   const { albumId } = useAlbum();
@@ -272,11 +265,6 @@ const MyTravelog = ({ title = 'Travelog' }) => {
       <CreatesContainer>
         <TravelContainer>
           <Travelo>{title}</Travelo>
-          <img
-            src={RightDirection}
-            onClick={handleRightDirectionClick}
-            style={{ width: '0.6vw', height: '1vw', cursor: 'pointer' }}
-          />
         </TravelContainer>
         <AlbumContainer>
           {albums.map((album, index) => (

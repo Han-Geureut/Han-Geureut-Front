@@ -10,7 +10,7 @@ import ETC from '../../assets/images/More horiz.png';
 import { Wrapper } from '@googlemaps/react-wrapper';
 import Homes from '../../components/Map/Homes';
 import { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import ReviewHomes from './ReviewHomes';
 import LeftButtonImage from '../../assets/images/leftbutton.png';
 import RightButtonImage from '../../assets/images/rightbutton.png';
@@ -19,10 +19,11 @@ import RevieweBanner from '../../assets/images/globe.png';
 const BannerContainer = styled.div`
   display: flex;
   width: 100%;
-  height: 27vw;
+  height: clamp(220px, 27vw, 460px);
   justify-content: center;
   align-items: center;
   position: relative;
+  overflow: hidden;
 `;
 
 const ImgContainer = styled.div`
@@ -70,37 +71,45 @@ const Container = styled.div`
 const CreatesContainer = styled.div`
   display: flex;
   flex-direction: column;
-  width: 60%;
-  margin-top: 7.65vw;
-  margin-bottom: 7.5vw;
-  height: 120vw;
-  align-items: center;
+  width: min(1080px, 88%);
+  margin-top: clamp(24px, 4vw, 72px);
+  margin-bottom: clamp(40px, 6vw, 96px);
+  align-items: stretch;
+  gap: clamp(20px, 3vw, 44px);
 `;
 
 const RowContainer = styled.div`
   display: flex;
   flex-direction: row;
   width: 100%;
-  margin-bottom: 7.6vw;
+  gap: clamp(20px, 3vw, 40px);
+
+  @media (max-width: 900px) {
+    flex-direction: column;
+  }
 `;
 
 const RowsContainer = styled.div`
   display: flex;
   flex-direction: row;
+  flex: 1;
 `;
 
 const ColumnContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 1.6vw;
-  padding-top: 1.2vw;
-  padding-left: 2.35vw;
+  gap: clamp(10px, 1.2vw, 20px);
+  padding-top: clamp(4px, 0.5vw, 10px);
 `;
 
-const PlacePicture = styled.img`
-  width: 20vw;
-  height: 20vw;
+const SideMapContainer = styled.div`
+  width: clamp(480px, 52vw, 720px);
+  height: clamp(240px, 26vw, 360px);
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background: #f3f3f3;
 `;
 
 const InfoItem = styled.div`
@@ -112,17 +121,17 @@ const InfoItem = styled.div`
 const InfoText = styled.p`
   color: #000;
   font-family: Pretendard;
-  font-size: 0.9vw;
+  font-size: clamp(13px, 0.9vw, 16px);
   font-style: normal;
   font-weight: 400;
-  line-height: 1.5vw;
+  line-height: 1.6;
   white-space: pre-line; /* Preserve newlines */
-  max-width: 20vw;
+  max-width: 520px;
 `;
 
 const InfoIcon = styled.img`
-  width: 1.6vw;
-  height: 1.6vw;
+  width: clamp(18px, 1.6vw, 24px);
+  height: clamp(18px, 1.6vw, 24px);
 `;
 
 const InfoItemComponent = ({ icon, text }) => (
@@ -137,48 +146,33 @@ const TravelContainer = styled.div`
   align-self: flex-start;
 `;
 
+const SectionDivider = styled.hr`
+  width: 100%;
+  border: 0;
+  border-top: 1px solid #e5e5e5;
+  margin: 0.4vw 0 0.2vw;
+`;
+
 const Travelo = styled.p`
   color: #000;
   font-family: Pretendard;
-  font-size: 1.8vw;
+  font-size: clamp(24px, 1.8vw, 34px);
   font-style: normal;
   font-weight: 600;
   line-height: normal;
 `;
 
-const MapContainer = styled.div`
+const BannerImage = styled.img`
   width: 100%;
-  height: 23vw;
-  border-radius: 10px;
-  overflow: hidden;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-`;
-
-const FollowButton = styled.button`
-  display: inline-flex;
-  padding: 8px 20px;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-  border-radius: 4px;
-  background: var(--2, #ff6b00);
-  color: #fff;
-  font-family: Pretendard;
-  font-size: 0.8vw;
-  font-style: normal;
-  font-weight: 600;
-  line-height: 1.2vw; /* 150% */
+  height: 100%;
+  object-fit: cover;
 `;
 
 const Detailreview = () => {
   const { id } = useParams();
   const [data, setData] = useState([]);
   const [reviews, setReviews] = useState([]);
-  const navigate = useNavigate();
-
-  const Handlereview = () => {
-    navigate(`/Writereview/${id}`);
-  };
+  const [bannerImageSrc, setBannerImageSrc] = useState(RevieweBanner);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -233,6 +227,10 @@ const Detailreview = () => {
     fetchReviews();
   }, [id]);
 
+  useEffect(() => {
+    setBannerImageSrc(data?.placeDetail?.placePhotoUrl || RevieweBanner);
+  }, [data]);
+
   const formatBusinessHours = (businessStatus) => {
     if (Array.isArray(businessStatus) && businessStatus.length > 0) {
       return businessStatus.join('\n'); // Join array elements with newlines
@@ -245,9 +243,9 @@ const Detailreview = () => {
       <Header />
       <BannerContainer>
         <ImgContainer>
-          <img
-            src={data?.placeDetail?.placePhotoUrl || RevieweBanner}
-            style={{ width: '100%', height: '27vw' }}
+          <BannerImage
+            src={bannerImageSrc}
+            onError={() => setBannerImageSrc(RevieweBanner)}
           />
           <BannerText>{data?.placeDetail?.placeName}</BannerText>
         </ImgContainer>
@@ -257,10 +255,18 @@ const Detailreview = () => {
         <CreatesContainer>
           <RowContainer>
             <ColumnContainer>
-              <PlacePicture
-                src={data?.placeDetail?.placePhotoUrl || Reviewrec}
-              />
-              <FollowButton onClick={Handlereview}>리뷰쓰기</FollowButton>
+              <SideMapContainer>
+                <Wrapper apiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY}>
+                  {data.placeDetail && data.placeDetail.placeInfo && (
+                    <ReviewHomes
+                      lat={data.placeDetail.placeInfo.lat}
+                      lng={data.placeDetail.placeInfo.lng}
+                      address={data.placeDetail.address}
+                      placeName={data.placeDetail.placeName}
+                    />
+                  )}
+                </Wrapper>
+              </SideMapContainer>
             </ColumnContainer>
             <RowsContainer>
               <ColumnContainer>
@@ -284,25 +290,19 @@ const Detailreview = () => {
             </RowsContainer>
           </RowContainer>
 
+          <SectionDivider />
+
           <TravelContainer>
-            <Travelo>리뷰</Travelo>
+            <Travelo>Review</Travelo>
           </TravelContainer>
-          <Review reviews={reviews} />
-
-          <div style={{ marginBottom: '10vw' }} />
-
-          <MapContainer>
-            <Wrapper apiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY}>
-              {data.placeDetail && data.placeDetail.placeInfo && (
-                <ReviewHomes
-                  lat={data.placeDetail.placeInfo.lat}
-                  lng={data.placeDetail.placeInfo.lng}
-                  address={data.placeDetail.address}
-                  placeName={data.placeDetail.placeName}
-                />
-              )}
-            </Wrapper>
-          </MapContainer>
+          <Review
+            reviews={reviews}
+            showArrow={false}
+            enableDelete={true}
+            onDeleteReview={(reviewId) =>
+              setReviews((prev) => prev.filter((review) => review.reviewId !== reviewId))
+            }
+          />
         </CreatesContainer>
       </Container>
     </>

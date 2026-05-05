@@ -2,7 +2,7 @@
 import logo from './logo.svg';
 import GlobalStyle from './styles/globalStyle';
 import Login from './pages/Login/Login';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
 import Signup from './pages/Login/Signup';
 import Profile from './pages/Login/Profile';
 import Creates1 from './pages/Album/Creates1';
@@ -23,12 +23,24 @@ import TemplateDetail from './pages/Template/TemplateDetail';
 import UserTravelog from './components/Travelog/UserTravelog';
 import Userpage from './pages/Mypage/UserPage';
 import OAuthCallback from './pages/Login/OAuthCallback';
+import { useEffect } from 'react';
+
+function ScrollToTop() {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
+  return null;
+}
 
 function App() {
   return (
     <>
       <GlobalStyle />
       <Router>
+        <ScrollToTop />
         <AlbumProvider>
           <Routes>
             <Route path="/" element={<Home />} />

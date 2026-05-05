@@ -1,15 +1,15 @@
 ﻿import styled from 'styled-components';
-import reviewprofile from '../../assets/images/reviewprofile.png';
 import Fullstar from '../../assets/images/Star rate.png';
 import Emptystar from '../../assets/images/Star.png';
-import Heartimage from '../../assets/images/heartimage.png';
-import { Link } from 'react-router-dom';
+import Trash from '../../assets/images/trash-2.png';
+import RightDirection from '../../assets/images/rightdirection.png';
+import { useNavigate } from 'react-router-dom';
 
 const ReviewGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 1fr); /* Adjust to display 2 items per row */
   gap: 1.4vw;
-  margin-top: 2vw;
+  margin-top: 0.6vw;
 `;
 
 const Reviews = styled.div`
@@ -34,7 +34,7 @@ const UserInfoContainer = styled.div`
 `;
 
 const NameContainer = styled.div`
-  margin-left: 0.55vw;
+  margin-left: 0;
 `;
 
 const UserName = styled.p`
@@ -55,9 +55,16 @@ const StyledStar = styled.img`
   height: 0.85vw;
 `;
 
-const HeartIcon = styled.img`
-  width: 1vw;
-  height: 0.9vw;
+const DetailArrow = styled.img`
+  width: 0.7vw;
+  height: 1.1vw;
+  cursor: pointer;
+`;
+
+const DeleteIcon = styled.img`
+  width: 1.05vw;
+  height: 1.05vw;
+  cursor: pointer;
 `;
 
 const ContentContainer = styled.div`
@@ -83,51 +90,98 @@ const Reviewimage = styled.img`
   height: 7vw;
 `;
 
-const Review = ({ reviews }) => {
+const CardFooter = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 0.7vw;
+`;
+
+const Review = ({ reviews, showArrow = true, enableDelete = false, onDeleteReview }) => {
+  const navigate = useNavigate();
+
+  const handleDeleteReview = async (reviewId) => {
+    const authToken = localStorage.getItem('authToken');
+    const isConfirmed = window.confirm('이 리뷰를 삭제하시겠어요?');
+    if (!isConfirmed) return;
+
+    try {
+      const response = await fetch(
+        `${process.env.REACT_APP_API_URL}/api/reviews/${reviewId}`,
+        {
+          method: 'DELETE',
+          headers: {
+            Authorization: `Bearer ${authToken}`,
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`Failed to delete review with status: ${response.status}`);
+      }
+
+      if (onDeleteReview) {
+        onDeleteReview(reviewId);
+      }
+      alert('리뷰가 삭제되었습니다!');
+    } catch (error) {
+      console.error('Failed to delete review:', error);
+      alert('리뷰 삭제에 실패했습니다.');
+    }
+  };
+
   return (
     <ReviewGrid>
       {reviews?.map((review) => (
-        <Link
-          key={review.reviewId}
-          to={`/detailReview/${review.reviewId}`}
-          style={{ textDecoration: 'none' }}
-        >
-          <Reviews>
-            <TitleContainer>
-              <UserInfoContainer>
-                <img
-                  src={review.writer.user_image_url || reviewprofile}
-                  alt="User Profile"
-                  style={{ width: '2.75vw', height: '2.75vw' }}
-                />
-                <NameContainer>
-                  <UserName>{review.writer.user_name}</UserName>
-                  <StarContainer>
-                    {[...Array(5)].map((_, index) => (
-                      <StyledStar
-                        key={index}
-                        src={index < review.star ? Fullstar : Emptystar}
-                      />
-                    ))}
-                  </StarContainer>
-                </NameContainer>
-              </UserInfoContainer>
-              <HeartIcon src={Heartimage} />
-            </TitleContainer>
-            <ContentContainer>
-              <ContentText>{review.content}</ContentText>
-            </ContentContainer>
-            <ImageContainer>
-              {review.reviewImages.map((image, index) => (
-                <Reviewimage
-                  key={index}
-                  src={image}
-                  alt={`Review Image ${index + 1}`}
-                />
-              ))}
-            </ImageContainer>
-          </Reviews>
-        </Link>
+        <Reviews key={review.reviewId}>
+          <TitleContainer>
+            <UserInfoContainer>
+              <NameContainer>
+                <UserName>{review.writer.user_name}</UserName>
+                <StarContainer>
+                  {[...Array(5)].map((_, index) => (
+                    <StyledStar
+                      key={index}
+                      src={index < review.star ? Fullstar : Emptystar}
+                    />
+                  ))}
+                </StarContainer>
+              </NameContainer>
+            </UserInfoContainer>
+            {showArrow && (
+              <DetailArrow
+                src={RightDirection}
+                alt="Review Detail"
+                onClick={() => navigate(`/detailReview/${review.reviewId}`)}
+              />
+            )}
+          </TitleContainer>
+          <ContentContainer>
+            <ContentText>{review.content}</ContentText>
+          </ContentContainer>
+          <ImageContainer>
+            {review.reviewImages.map((image, index) => (
+              <Reviewimage
+                key={index}
+                src={image}
+                alt={`Review Image ${index + 1}`}
+              />
+            ))}
+          </ImageContainer>
+          {enableDelete && (
+            <CardFooter>
+              <DeleteIcon
+                src={Trash}
+                alt="Delete Review"
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  handleDeleteReview(review.reviewId);
+                }}
+              />
+            </CardFooter>
+          )}
+        </Reviews>
       ))}
     </ReviewGrid>
   );
