@@ -221,3 +221,4 @@ sketch
 .env
 .env.local
 .env.production
+/build
