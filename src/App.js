@@ -22,6 +22,7 @@ import WholeTravelog from './components/Travelog/WholeTravelog';
 import TemplateDetail from './pages/Template/TemplateDetail';
 import UserTravelog from './components/Travelog/UserTravelog';
 import Userpage from './pages/Mypage/UserPage';
+import OAuthCallback from './pages/Login/OAuthCallback';
 
 function App() {
   return (
@@ -52,6 +53,7 @@ function App() {
               path="/template-detail/:photoId"
               element={<TemplateDetail />}
             />
+            <Route path="/oauth/callback" element={<OAuthCallback />} />
           </Routes>
         </AlbumProvider>
       </Router>
