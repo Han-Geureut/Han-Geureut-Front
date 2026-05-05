@@ -8,10 +8,12 @@ const OAuthCallback = () => {
     const params = new URLSearchParams(window.location.search);
     const accessToken = params.get('access_token');
     const refreshToken = params.get('refresh_token');
+    const userId = params.get('user_id');
 
     if (accessToken) {
       localStorage.setItem('authToken', accessToken);
       localStorage.setItem('refreshToken', refreshToken);
+      if (userId) localStorage.setItem('userId', userId);
       navigate('/');
     } else {
       navigate('/Login');
