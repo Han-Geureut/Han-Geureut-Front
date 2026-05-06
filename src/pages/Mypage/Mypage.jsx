@@ -107,6 +107,13 @@ const Container = styled.div`
   flex-direction: column;
 `;
 
+const SectionDivider = styled.hr`
+  width: 60%;
+  border: 0;
+  border-top: 1px solid #e5e5e5;
+  margin: 0 0 1.5vw;
+`;
+
 const TravelContainer = styled.div`
   display: flex;
   align-self: flex-start;
@@ -217,10 +224,11 @@ const Mypage = () => {
 
       <Container>
         <MyTravelog title="My Album" myalbum={profile.albums} />
+        <SectionDivider />
 
         <CreatesContainer style={{ paddingTop: '0vw' }}>
           <TravelContainer>
-            <Travelo>My Reviews</Travelo>
+            <Travelo>My Review</Travelo>
           </TravelContainer>
           <MyReview />
         </CreatesContainer>

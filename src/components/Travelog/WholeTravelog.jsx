@@ -462,6 +462,12 @@ const WholeTravelog = ({ title = 'Foodlog' }) => {
               >
                 New
               </Button>
+              <Button
+                active={sortStatus === '_OLDEST'}
+                onClick={() => setSortStatus('_OLDEST')}
+              >
+                Old
+              </Button>
             </ButtonContainer>
           </ButtonContainerWrapper>
           <AlbumContainer>

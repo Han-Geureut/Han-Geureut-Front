@@ -29,6 +29,7 @@ const ReviewHomes = ({ lat, lng, address, placeName }) => {
   useEffect(() => {
     if (map) {
       const position = { lat, lng };
+      map.setCenter(position);
       const marker = new window.google.maps.Marker({
         position,
         map,
@@ -51,7 +52,7 @@ const ReviewHomes = ({ lat, lng, address, placeName }) => {
     <div
       ref={ref}
       id="map"
-      style={{ width: '60vw', height: '23.6vw', borderRadius: '15px' }}
+      style={{ width: '100%', height: '100%', borderRadius: '15px' }}
     ></div>
   );
 };
