@@ -4,12 +4,14 @@ import Share from '../../assets/images/share.png';
 import { Link } from 'react-router-dom';
 import EmptyHeart from '../../assets/images/emptywhite.png';
 import FilledHeart from '../../assets/images/heart.png';
+import EmptyBookmark from '../../assets/images/bookmark_.png';
+import FilledBookmark from '../../assets/images/bookmark.png';
+import PopularIconImage from '../../assets/images/popular.png';
 import { useState, useEffect } from 'react';
 import { useContext } from 'react';
 import { AlbumProvider, useAlbum } from '../../AlbumContext/AlbumContext';
 import RightDirection from '../../assets/images/rightdirection.png';
 import { useNavigate } from 'react-router-dom';
-import Trash from '../../assets/images/trash-2.png';
 
 const StyledLink = styled(Link)`
   text-decoration: none;
@@ -55,18 +57,41 @@ const AlbumContainer = styled.div`
 
 const Album = styled.div`
   display: flex;
-  position: relative;
   flex-direction: column;
   margin-bottom: 0.8vw;
   width: calc((100% - 0.8vw * 5) / 6);
 `;
 
+const ImageArea = styled.div`
+  position: relative;
+  border-radius: 0.6vw;
+  overflow: hidden;
+
+  .hover-overlay {
+    opacity: 0;
+  }
+
+  .hover-icon {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  &:hover .hover-overlay {
+    opacity: 1;
+  }
+
+  &:hover .hover-icon {
+    opacity: 1;
+    pointer-events: auto;
+  }
+`;
+
 const Detail = styled.div`
   width: 100%;
-  height: 5.2vw;
+  height: 3.9vw;
   flex-shrink: 0;
   background: #f5f5f5;
-  padding: 0.9vw 0.8vw 0.6vw;
+  padding: 0.72vw 0.8vw 0.28vw;
 `;
 
 const TitleContainer = styled.div`
@@ -80,6 +105,14 @@ const AlbumImage = styled.img`
   aspect-ratio: 3 / 4;
   height: auto;
   object-fit: cover;
+`;
+
+const HoverOverlay = styled.div`
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.28);
+  transition: opacity 0.2s ease;
+  pointer-events: none;
 `;
 
 const Title = styled.p`
@@ -98,8 +131,15 @@ const Made = styled.p`
   font-style: normal;
   font-weight: 500;
   line-height: normal;
-  margin-top: 0.2vw;
+  margin-top: 0;
   margin-bottom: 0;
+`;
+
+const MetaRow = styled.div`
+  margin-top: 0.18vw;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 `;
 
 const HashTag = styled.p`
@@ -111,10 +151,26 @@ const HashTag = styled.p`
   line-height: 1.2vw;
 `;
 
-const IconContainer = styled.div`
+const ViewCountContainer = styled.div`
   display: flex;
+  flex-direction: row;
   align-items: center;
-  gap: 10px;
+  gap: 0.25vw;
+`;
+
+const PopularIcon = styled.img`
+  width: 0.62vw;
+  height: 0.62vw;
+  object-fit: contain;
+`;
+
+const ViewCountText = styled.p`
+  margin: 0;
+  font-family: Pretendard;
+  font-size: 0.58vw;
+  font-weight: 500;
+  color: #666;
+  line-height: 1;
 `;
 
 const heartStyle = {
@@ -123,6 +179,18 @@ const heartStyle = {
   top: '1vw',
   width: '1.3vw',
   height: '1.3vw',
+  transition: 'opacity 0.2s ease',
+  cursor: 'pointer',
+};
+
+const bookmarkStyle = {
+  position: 'absolute',
+  right: '2.7vw',
+  top: '0.4vw',
+  width: '2.5vw',
+  height: '2.5vw',
+  objectFit: 'contain',
+  transition: 'opacity 0.2s ease',
   cursor: 'pointer',
 };
 
@@ -135,52 +203,17 @@ export const AlbumData = [
   { id: 6, title: '앨범제목 6', date: '생성일 6', hashtag: '#해시태그6' },
 ];
 
-const deleteAlbum = async (albumId) => {
-  const authToken = localStorage.getItem('authToken');
-
-  try {
-    const response = await fetch(
-      `${process.env.REACT_APP_API_URL}/api/album/${albumId}`,
-      {
-        method: 'DELETE',
-        headers: {
-          Authorization: `Bearer ${authToken}`,
-          'Content-Type': 'application/json',
-        },
-      }
-    );
-
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-
-    const data = await response.json();
-    console.log(data);
-    if (response.ok && data.isSuccess) {
-      console.log('Album deleted successfully');
-      alert('앨범이 삭제되었습니다!');
-      window.location.reload();
-    } else if (!response.ok && response.status === 403) {
-      console.error('Failed to delete the album');
-      alert('작성자만 앨범 삭제가 가능합니다!');
-    } else {
-      console.error('Failed to delete the album');
-      alert('앨범 삭제에 실패했습니다!');
-    }
-  } catch (e) {
-    console.error('Failed to delete the album:', e);
-    alert('작성자만 앨범 삭제가 가능합니다!');
-  }
-};
-
 const Travelog = ({ title = 'Travelog' }) => {
   const [albums, setAlbums] = useState([]);
   const navigate = useNavigate();
+  const [bookmarks, setBookmarks] = useState([]);
+  const BOOKMARK_STORAGE_KEY = 'bookmarkedAlbumIds';
 
   const handleLike = async (albumId, index) => {
     const newHearts = [...hearts];
     newHearts[index] = !newHearts[index];
     setHearts(newHearts);
+    const isLiked = newHearts[index];
 
     const authToken = localStorage.getItem('authToken');
 
@@ -188,7 +221,7 @@ const Travelog = ({ title = 'Travelog' }) => {
       const response = await fetch(
         `${process.env.REACT_APP_API_URL}/api/album/like/${albumId}`,
         {
-          method: 'POST',
+          method: isLiked ? 'POST' : 'DELETE',
           headers: {
             Authorization: `Bearer ${authToken}`,
             'Content-Type': 'application/json',
@@ -221,6 +254,30 @@ const Travelog = ({ title = 'Travelog' }) => {
 
   const { albumId } = useAlbum();
   const [hearts, setHearts] = useState([]);
+
+  const getStoredBookmarkedIds = () => {
+    try {
+      const raw = localStorage.getItem(BOOKMARK_STORAGE_KEY);
+      const parsed = raw ? JSON.parse(raw) : [];
+      return Array.isArray(parsed) ? parsed : [];
+    } catch (e) {
+      console.error('Failed to parse bookmarkedAlbumIds:', e);
+      return [];
+    }
+  };
+
+  const handleBookmark = (targetAlbumId, index) => {
+    const nextBookmarks = [...bookmarks];
+    nextBookmarks[index] = !nextBookmarks[index];
+    setBookmarks(nextBookmarks);
+
+    const storedIds = getStoredBookmarkedIds();
+    const updatedIds = nextBookmarks[index]
+      ? [...new Set([...storedIds, targetAlbumId])]
+      : storedIds.filter((id) => id !== targetAlbumId);
+
+    localStorage.setItem(BOOKMARK_STORAGE_KEY, JSON.stringify(updatedIds));
+  };
 
   const toggleHeart = (index) => {
     const newHearts = [...hearts];
@@ -267,8 +324,10 @@ const Travelog = ({ title = 'Travelog' }) => {
         const data = await listRes.json();
         if (data?.result?.albums && Array.isArray(data.result.albums)) {
           const list = data.result.albums;
+          const bookmarkedIds = getStoredBookmarkedIds();
           setAlbums(list);
-          setHearts(new Array(list.length).fill(false));
+          setHearts(list.map((album) => album.likedByUser));
+          setBookmarks(list.map((album) => bookmarkedIds.includes(album.albumId)));
         }
         console.log(data);
       } catch (e) {
@@ -293,35 +352,43 @@ const Travelog = ({ title = 'Travelog' }) => {
         <AlbumContainer>
           {albums.map((album, index) => (
             <Album key={album.albumId}>
-              <StyledLink to={`/Template/${album.albumId}`}>
-                <AlbumImage src={album.mainImageUrl} alt="Album Image" />
-              </StyledLink>
-              <img
-                src={hearts[index] ? FilledHeart : EmptyHeart}
-                style={heartStyle}
-                alt={hearts[index] ? 'Filled Heart' : 'Empty Heart'}
-                onClick={(e) => {
-                  e.preventDefault();
-                  handleLike(album.albumId, index);
-                }}
-              />
+              <ImageArea>
+                <StyledLink to={`/Template/${album.albumId}`}>
+                  <AlbumImage src={album.mainImageUrl} alt="Album Image" />
+                </StyledLink>
+                <HoverOverlay className="hover-overlay" />
+                <img
+                  className="hover-icon"
+                  src={hearts[index] ? FilledHeart : EmptyHeart}
+                  style={heartStyle}
+                  alt={hearts[index] ? 'Filled Heart' : 'Empty Heart'}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleLike(album.albumId, index);
+                  }}
+                />
+                <img
+                  className="hover-icon"
+                  src={bookmarks[index] ? FilledBookmark : EmptyBookmark}
+                  style={bookmarkStyle}
+                  alt={bookmarks[index] ? 'Filled Bookmark' : 'Empty Bookmark'}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleBookmark(album.albumId, index);
+                  }}
+                />
+              </ImageArea>
               <Detail>
                 <TitleContainer>
                   <Title>{album.albumName}</Title>
-                  <IconContainer>
-                    <img
-                      src={Trash}
-                      alt="Delete Icon"
-                      style={{
-                        width: '1.1vw',
-                        height: '1.1vw',
-                        cursor: 'pointer',
-                      }}
-                      onClick={() => deleteAlbum(album.albumId)}
-                    />
-                  </IconContainer>
                 </TitleContainer>
-                <Made>{new Date(album.createdAt).toLocaleDateString()}</Made>
+                <MetaRow>
+                  <Made>{new Date(album.createdAt).toLocaleDateString()}</Made>
+                  <ViewCountContainer>
+                    <PopularIcon src={PopularIconImage} alt="Popularity Icon" />
+                    <ViewCountText>{album.viewCount ?? 0}</ViewCountText>
+                  </ViewCountContainer>
+                </MetaRow>
               </Detail>
             </Album>
           ))}
