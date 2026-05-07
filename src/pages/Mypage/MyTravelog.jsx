@@ -4,6 +4,9 @@ import Share from '../../assets/images/share.png';
 import { Link } from 'react-router-dom';
 import EmptyHeart from '../../assets/images/emptywhite.png';
 import FilledHeart from '../../assets/images/heart.png';
+import EmptyBookmark from '../../assets/images/bookmark_.png';
+import FilledBookmark from '../../assets/images/bookmark.png';
+import PopularIconImage from '../../assets/images/popular.png';
 import { useState } from 'react';
 import { useContext } from 'react';
 import { AlbumProvider, useAlbum } from '../../AlbumContext/AlbumContext';
@@ -54,30 +57,60 @@ const AlbumContainer = styled.div`
 
 const Album = styled.div`
   display: flex;
-  position: relative;
   flex-direction: column;
   margin-bottom: 2vw;
   width: calc((100% - 2.2vw * 2) / 3);
   min-width: 18.5vw;
 `;
 
+const ImageArea = styled.div`
+  position: relative;
+  border-radius: 0.6vw;
+  overflow: hidden;
+
+  .hover-overlay {
+    opacity: 0;
+  }
+
+  .hover-icon {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  &:hover .hover-overlay {
+    opacity: 1;
+  }
+
+  &:hover .hover-icon {
+    opacity: 1;
+    pointer-events: auto;
+  }
+`;
+
 const Detail = styled.div`
   width: 100%;
-  height: 7.4vw;
+  height: auto;
   flex-shrink: 0;
   background: #f5f5f5;
-  padding: 1.6vw 1.4vw 0.85vw 1.3vw;
+  padding: 0.95vw 1.1vw 0.65vw;
 `;
 
 const TitleContainer = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
 `;
 
 const AlbumImage = styled.img`
   width: 100%;
   height: 21vw;
+`;
+
+const HoverOverlay = styled.div`
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.28);
+  transition: opacity 0.2s ease;
+  pointer-events: none;
 `;
 
 const Title = styled.p`
@@ -96,8 +129,14 @@ const Made = styled.p`
   font-style: normal;
   font-weight: 500;
   line-height: normal;
-  margin-top: 0.3vw;
-  margin-bottom: 1.3vw;
+  margin: 0;
+`;
+
+const MetaRow = styled.div`
+  margin-top: 0.28vw;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 `;
 
 const HashTag = styled.p`
@@ -109,10 +148,26 @@ const HashTag = styled.p`
   line-height: 1.2vw; /* 171.429% */
 `;
 
-const IconContainer = styled.div`
+const ViewCountContainer = styled.div`
   display: flex;
+  flex-direction: row;
   align-items: center;
-  gap: 10px; // 아이콘 간 간격을 10px로 설정
+  gap: 0.6vw;
+`;
+
+const PopularIcon = styled.img`
+  width: 0.85vw;
+  height: 0.85vw;
+  object-fit: contain;
+`;
+
+const ViewCountText = styled.p`
+  margin: 0;
+  font-family: Pretendard;
+  font-size: 0.72vw;
+  font-weight: 500;
+  color: #666;
+  line-height: 1;
 `;
 
 const heartStyle = {
@@ -121,7 +176,19 @@ const heartStyle = {
   top: '1vw',
   width: '1.3vw',
   height: '1.3vw',
+  transition: 'opacity 0.2s ease',
   cursor: 'pointer', // 마우스 포인터를 손가락 모양으로 변경
+};
+
+const bookmarkStyle = {
+  position: 'absolute',
+  right: '2.7vw',
+  top: '0.4vw',
+  width: '2.5vw',
+  height: '2.5vw',
+  objectFit: 'contain',
+  transition: 'opacity 0.2s ease',
+  cursor: 'pointer',
 };
 
 export const AlbumData = [
@@ -173,12 +240,15 @@ const deleteAlbum = async (albumId) => {
 
 const MyTravelog = ({ title = 'Travelog' }) => {
   const [albums, setAlbums] = useState([]);
+  const [bookmarks, setBookmarks] = useState([]);
+  const BOOKMARK_STORAGE_KEY = 'bookmarkedAlbumIds';
 
   const handleLike = async (albumId, index) => {
     // 로컬 상태를 먼저 업데이트
     const newHearts = [...hearts];
     newHearts[index] = !newHearts[index];
     setHearts(newHearts);
+    const isLiked = newHearts[index];
 
     // authToken 가져오기
     const authToken = localStorage.getItem('authToken');
@@ -188,7 +258,7 @@ const MyTravelog = ({ title = 'Travelog' }) => {
       const response = await fetch(
         `${process.env.REACT_APP_API_URL}/api/album/like/${albumId}`,
         {
-          method: 'POST',
+          method: isLiked ? 'POST' : 'DELETE',
           headers: {
             Authorization: `Bearer ${authToken}`,
             'Content-Type': 'application/json',
@@ -217,6 +287,30 @@ const MyTravelog = ({ title = 'Travelog' }) => {
 
   const { albumId } = useAlbum();
   const [hearts, setHearts] = useState(new Array(AlbumData.length).fill(false));
+
+  const getStoredBookmarkedIds = () => {
+    try {
+      const raw = localStorage.getItem(BOOKMARK_STORAGE_KEY);
+      const parsed = raw ? JSON.parse(raw) : [];
+      return Array.isArray(parsed) ? parsed : [];
+    } catch (e) {
+      console.error('Failed to parse bookmarkedAlbumIds:', e);
+      return [];
+    }
+  };
+
+  const handleBookmark = (targetAlbumId, index) => {
+    const nextBookmarks = [...bookmarks];
+    nextBookmarks[index] = !nextBookmarks[index];
+    setBookmarks(nextBookmarks);
+
+    const storedIds = getStoredBookmarkedIds();
+    const updatedIds = nextBookmarks[index]
+      ? [...new Set([...storedIds, targetAlbumId])]
+      : storedIds.filter((id) => id !== targetAlbumId);
+
+    localStorage.setItem(BOOKMARK_STORAGE_KEY, JSON.stringify(updatedIds));
+  };
 
   const toggleHeart = (index) => {
     const newHearts = [...hearts];
@@ -249,7 +343,11 @@ const MyTravelog = ({ title = 'Travelog' }) => {
         }
         const data = await response.json();
         if (data && data.result && Array.isArray(data.result.albums)) {
-          setAlbums(data.result.albums); // API 응답으로 받은 앨범 데이터를 상태에 설정
+          const list = data.result.albums;
+          const bookmarkedIds = getStoredBookmarkedIds();
+          setAlbums(list); // API 응답으로 받은 앨범 데이터를 상태에 설정
+          setHearts(list.map((album) => album.likedByUser));
+          setBookmarks(list.map((album) => bookmarkedIds.includes(album.albumId)));
         }
         console.log(data);
       } catch (e) {
@@ -269,22 +367,41 @@ const MyTravelog = ({ title = 'Travelog' }) => {
         <AlbumContainer>
           {albums.map((album, index) => (
             <Album key={album.albumId}>
-              <StyledLink to={`/Template/${album.albumId}`}>
-                <AlbumImage src={album.mainImageUrl} alt="Album Image" />
-              </StyledLink>
-              <img
-                src={hearts[index] ? FilledHeart : EmptyHeart}
-                style={heartStyle}
-                alt={hearts[index] ? 'Filled Heart' : 'Empty Heart'}
-                onClick={(e) => {
-                  e.preventDefault();
-                  handleLike(album.albumId, index);
-                }}
-              />
+              <ImageArea>
+                <StyledLink to={`/Template/${album.albumId}`}>
+                  <AlbumImage src={album.mainImageUrl} alt="Album Image" />
+                </StyledLink>
+                <HoverOverlay className="hover-overlay" />
+                <img
+                  className="hover-icon"
+                  src={hearts[index] ? FilledHeart : EmptyHeart}
+                  style={heartStyle}
+                  alt={hearts[index] ? 'Filled Heart' : 'Empty Heart'}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleLike(album.albumId, index);
+                  }}
+                />
+                <img
+                  className="hover-icon"
+                  src={bookmarks[index] ? FilledBookmark : EmptyBookmark}
+                  style={bookmarkStyle}
+                  alt={bookmarks[index] ? 'Filled Bookmark' : 'Empty Bookmark'}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleBookmark(album.albumId, index);
+                  }}
+                />
+              </ImageArea>
               <Detail>
                 <TitleContainer>
                   <Title>{album.albumName}</Title>
-                  <IconContainer>
+                </TitleContainer>
+                <MetaRow>
+                  <Made>{new Date(album.createdAt).toLocaleDateString()}</Made>
+                  <ViewCountContainer>
+                    <PopularIcon src={PopularIconImage} alt="Popularity Icon" />
+                    <ViewCountText>{album.viewCount ?? 0}</ViewCountText>
                     <img
                       src={Trash}
                       alt="Delete Icon"
@@ -292,12 +409,12 @@ const MyTravelog = ({ title = 'Travelog' }) => {
                         width: '1.1vw',
                         height: '1.1vw',
                         cursor: 'pointer',
+                        transform: 'translateY(-1px)',
                       }}
                       onClick={() => deleteAlbum(album.albumId)}
                     />
-                  </IconContainer>
-                </TitleContainer>
-                <Made>{new Date(album.createdAt).toLocaleDateString()}</Made>
+                  </ViewCountContainer>
+                </MetaRow>
               </Detail>
             </Album>
           ))}
