@@ -1,4 +1,4 @@
-﻿import styled from 'styled-components';
+import styled from 'styled-components';
 import Travel from '../../assets/images/Travelogimage.png';
 import Share from '../../assets/images/share.png';
 import { Link, useParams } from 'react-router-dom';
@@ -381,7 +381,7 @@ const WholeTravelog = ({ title = 'Foodlog' }) => {
   const BOOKMARK_STORAGE_KEY = 'bookmarkedAlbumIds';
 
   const [totalAlbums, setTotalAlbums] = useState(0);
-  const [sortStatus, setSortStatus] = useState('_POPULAR');
+  const [sortStatus, setSortStatus] = useState('_FAVORITES');
   const [page, setPage] = useState(1); // 페이지 번호
   const [pageCount, setPageCount] = useState(9);
 
@@ -536,21 +536,39 @@ const WholeTravelog = ({ title = 'Foodlog' }) => {
               </Button>
               <Button
                 active={sortStatus === '_POPULAR'}
-                onClick={() => setSortStatus('_POPULAR')}
+                onClick={() => {
+                  setSortStatus('_POPULAR');
+                  setPage(1);
+                }}
               >
-                Popular
+                Most Liked
+              </Button>
+              <Button
+                active={sortStatus === '_MOST_VIEWED'}
+                onClick={() => {
+                  setSortStatus('_MOST_VIEWED');
+                  setPage(1);
+                }}
+              >
+                Most Viewed
               </Button>
               <Button
                 active={sortStatus === '_LATEST'}
-                onClick={() => setSortStatus('_LATEST')}
+                onClick={() => {
+                  setSortStatus('_LATEST');
+                  setPage(1);
+                }}
               >
-                New
+                Newest
               </Button>
               <Button
                 active={sortStatus === '_OLDEST'}
-                onClick={() => setSortStatus('_OLDEST')}
+                onClick={() => {
+                  setSortStatus('_OLDEST');
+                  setPage(1);
+                }}
               >
-                Old
+                Oldest
               </Button>
             </ButtonContainer>
           </ButtonContainerWrapper>
