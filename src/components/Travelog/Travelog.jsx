@@ -1,4 +1,4 @@
-﻿import styled from 'styled-components';
+import styled from 'styled-components';
 import Travel from '../../assets/images/Travelogimage.png';
 import Share from '../../assets/images/share.png';
 import { Link } from 'react-router-dom';
@@ -194,6 +194,15 @@ const bookmarkStyle = {
   cursor: 'pointer',
 };
 
+const shuffleAlbums = (list) => {
+  const shuffled = [...list];
+  for (let i = shuffled.length - 1; i > 0; i -= 1) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  return shuffled;
+};
+
 export const AlbumData = [
   { id: 1, title: '앨범제목 1', date: '생성일 1', hashtag: '#해시태그1' },
   { id: 2, title: '앨범제목 2', date: '생성일 2', hashtag: '#해시태그2' },
@@ -323,7 +332,7 @@ const Travelog = ({ title = 'Travelog' }) => {
         }
         const data = await listRes.json();
         if (data?.result?.albums && Array.isArray(data.result.albums)) {
-          const list = data.result.albums;
+          const list = shuffleAlbums(data.result.albums);
           const bookmarkedIds = getStoredBookmarkedIds();
           setAlbums(list);
           setHearts(list.map((album) => album.likedByUser));
