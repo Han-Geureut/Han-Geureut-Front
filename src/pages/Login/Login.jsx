@@ -150,17 +150,26 @@ const Login = () => {
         body: JSON.stringify(requestBody),
       });
 
-      if (!response.ok) throw new Error(`Login failed with status: ${response.status}`);
+      if (!response.ok) {
+        alert('아이디 또는 비밀번호가 올바르지 않습니다.');
+        return;
+      }
 
       const contentType = response.headers.get('Content-Type');
-      if (!contentType || !contentType.includes('application/json'))
-        throw new Error('Invalid content type received from server');
-
-      const data = await response.json();
-      console.log('Login successful:', data);
+      if (!contentType || !contentType.includes('application/json')) {
+        alert('로그인 중 오류가 발생했습니다.');
+        return;
+      }
 
       const authToken = response.headers.get('authorization');
       const refreshToken = response.headers.get('authorization-refresh');
+
+      if (!authToken) {
+        alert('로그인에 실패했습니다. 다시 시도해주세요.');
+        return;
+      }
+
+      const data = await response.json();
       localStorage.setItem('authToken', authToken);
       localStorage.setItem('refreshToken', refreshToken);
       localStorage.setItem('userId', data.result.user_id);
@@ -168,6 +177,7 @@ const Login = () => {
       navigate('/');
     } catch (error) {
       console.error('Error during login:', error.message);
+      alert('로그인 중 오류가 발생했습니다.');
     }
   };
 
