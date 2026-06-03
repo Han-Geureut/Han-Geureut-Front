@@ -14,7 +14,6 @@ const ProfileContainer = styled.div`
   flex-direction: column;
   width: 60%;
   margin-top: 4vw;
-  height: 50vw;
   align-items: center;
 `;
 
@@ -152,75 +151,6 @@ const ButtonContainer = styled.div`
   margin-top: 2vw;
 `;
 
-const AudioUploadContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  padding-top: 2vw;
-  padding-left: 1vw;
-  width: 55%;
-  background-color: rgb(255, 255, 255);
-  margin-top: 2vw;
-`;
-
-const DragDropArea = styled.div`
-  border: 2px dashed #000000; /* 점선 테두리 */
-  border-radius: 10px;
-  color: #000000;
-  padding: 4vw;
-  text-align: center;
-  background-color: rgba(255, 255, 255, 0.2); /* 반투명 배경 */
-  margin-bottom: 2vw;
-  font-size: 1vw;
-`;
-
-const AudioPreview = styled.audio`
-  margin-top: 2vw;
-  margin-bottom: 2vw;
-  max-width: 100%; /* 오디오 플레이어의 최대 너비 설정 */
-`;
-
-const UploadButton = styled.label`
-  background-color: #ff6b00;
-  border: none;
-  color: #ffffff;
-  padding: 1vw 2vw; /* 패딩을 조절하여 버튼 크기 조정 가능 */
-  font-family: Pretendard;
-  font-size: 1vw;
-  cursor: pointer;
-  border-radius: 10px;
-  text-align: center;
-  width: 10vw; /* 버튼 너비를 15vw로 설정 */
-  display: block; /* 블록 레벨 요소로 만들어 너비 적용 */
-  margin: 0 auto; /* 가운데 정렬 */
-  margin-bottom: 2vw;
-`;
-
-const HiddenInput = styled.input`
-  display: none;
-`;
-
-const UploadText = styled.p`
-  color: #000000;
-  font-family: Pretendard;
-  font-size: 1vw;
-  font-style: normal;
-  font-weight: 600;
-  line-height: normal;
-  text-transform: capitalize;
-  margin-bottom: 1vw;
-`;
-
-const DetailText = styled.p`
-  color: #000000;
-  font-family: Pretendard;
-  font-size: 1vw;
-  font-style: normal;
-  font-weight: 600;
-  line-height: normal;
-  text-transform: capitalize;
-  margin-bottom: 4vw;
-`;
-
 const Profile = () => {
   const [profileImage, setProfileImage] = useState(Default);
   const hiddenFileInput = React.useRef(null);
@@ -229,17 +159,6 @@ const Profile = () => {
     user_introduction: '',
   });
   const [selectedFile, setSelectedFile] = useState(null);
-
-  // 음성 관련 상태
-  const [audioFile, setAudioFile] = useState(null);
-  const [audioSrc, setAudioSrc] = useState('');
-  const [audioName, setAudioName] = useState('음성파일을 여기로 드래그하세요');
-
-  useEffect(() => {
-    if (audioSrc) {
-      return () => URL.revokeObjectURL(audioSrc);
-    }
-  }, [audioSrc]);
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -340,53 +259,6 @@ const Profile = () => {
     }
   };
 
-  const handleDragOver = (e) => e.preventDefault();
-  const handleDropAudio = (e) => {
-    e.preventDefault();
-    const file = e.dataTransfer.files[0];
-    if (file && /audio\/(mp3|wav|m4a)$/.test(file.type)) {
-      setAudioFile(file);
-      setAudioSrc(URL.createObjectURL(file)); // Update the source for audio preview
-      setAudioName(file.name); // Update the audio file name
-    }
-  };
-
-  const handleAudioUpload = async (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const formData = new FormData();
-      formData.append('sample', file);
-      console.log(file);
-
-      const authToken = localStorage.getItem('authToken');
-
-      try {
-        const response = await fetch(`${process.env.REACT_APP_API_URL}/api/voice`, {
-          method: 'POST',
-          headers: {
-            Authorization: `Bearer ${authToken}`,
-          },
-          body: formData,
-        });
-
-        if (response.ok) {
-          console.log('Audio upload successful');
-          const responseData = await response.text();
-          console.log(responseData);
-
-          setAudioSrc(URL.createObjectURL(file));
-          setAudioName(file.name);
-        } else {
-          const errorText = await response.text();
-          console.error('Error uploading audio:', errorText);
-          alert('Error occurred: ' + errorText);
-        }
-      } catch (error) {
-        console.error('Error uploading audio:', error);
-      }
-    }
-  };
-
   return (
     <>
       <Header />
@@ -426,31 +298,6 @@ const Profile = () => {
               <SubmitButton type="submit">저장하기</SubmitButton>
             </ButtonContainer>
           </form>
-          <AudioUploadContainer>
-            <UploadText>음성 업로드</UploadText>
-            <DetailText>
-              음성 파일을 업로드하여 AI 음성 합성 기능을 활용해보세요.
-              <br />
-              음성 데이터가 충분할수록 결과물의 질이 향상되므로, 최소 1분 분량의
-              녹음을 권장합니다.
-              <br />
-              업로드 가능한 파일 형식은 .mp3, .wav, .m4a입니다.
-              <br />
-              파일 크기는 최대 2MB까지 가능합니다.
-            </DetailText>
-            <UploadText>미리듣기</UploadText>
-            {audioSrc && <AudioPreview src={audioSrc} controls />}
-            <DragDropArea onDragOver={handleDragOver} onDrop={handleDropAudio}>
-              {audioName}
-            </DragDropArea>
-            <UploadButton htmlFor="audio-upload">업로드하기</UploadButton>
-            <HiddenInput
-              id="audio-upload"
-              type="file"
-              accept="audio/mp3, audio/wav, audio/mp4, audio/x-m4a"
-              onChange={handleAudioUpload}
-            />
-          </AudioUploadContainer>
         </ProfileContainer>
       </Container>
     </>
